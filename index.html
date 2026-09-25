@@ -6,6 +6,7 @@
     <title>بيانو تايلز</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <style>
         :root{--bg:#0a0a0f;--card:#111118;--border:#1c1c28;--gold:#ffd700;--red:#ff2d55;--cyan:#00e5ff;--green:#00e676;--purple:#b388ff;--txt:#e8e8f0;--muted:#555}
         *{margin:0;padding:0;box-sizing:border-box}
@@ -61,6 +62,8 @@
         .go-btn:hover{box-shadow:0 3px 12px rgba(0,229,255,.15)}
         .go-retry{background:transparent;border:1px solid var(--border);color:var(--txt);border-radius:9px;padding:7px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:.3s;margin-top:2px}
         .go-retry:hover{border-color:var(--cyan)}
+        .go-guest-btn{background:transparent;border:1px solid rgba(179,136,255,.25);color:var(--purple);border-radius:9px;padding:7px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:.3s;margin-top:4px}
+        .go-guest-btn:hover{border-color:var(--purple);box-shadow:0 0 12px rgba(179,136,255,.1)}
         .go-ver{font-size:8px;color:rgba(255,255,255,.06);cursor:default;margin-top:16px;letter-spacing:1px}
         .lb{width:220px;max-height:100px;overflow-y:auto;margin-top:6px}
         .lb::-webkit-scrollbar{width:2px}
@@ -68,10 +71,37 @@
         .lb-row{display:flex;justify-content:space-between;padding:2px 0;font-size:10px;border-bottom:1px solid rgba(255,255,255,.02)}
         .lb-row .n{color:var(--muted)}.lb-row .s{color:var(--gold);font-weight:700}
 
+        /* مودال دخول الضيف */
+        .guest-modal{position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(6px)}
+        .guest-modal.on{opacity:1;pointer-events:all}
+        .guest-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;width:300px;max-width:90vw;text-align:center}
+        .guest-box h3{font-size:15px;font-weight:900;margin-bottom:12px;color:var(--purple)}
+        .guest-box p{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.6}
+        .gi{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--txt);font-family:'Tajawal',sans-serif;font-size:13px;width:100%;outline:none;text-align:center;transition:.3s;margin-bottom:8px}
+        .gi:focus{border-color:rgba(179,136,255,.4)}
+        .gi::placeholder{color:var(--muted)}
+        .gb{background:linear-gradient(135deg,#4a148c,#7b1fa2);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:.3s;width:100%;margin-top:4px}
+        .gb:hover{box-shadow:0 3px 12px rgba(179,136,255,.2)}
+        .gb-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:7px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:.3s;width:100%;margin-top:4px}
+        .gb-cancel:hover{border-color:var(--muted);color:var(--txt)}
+        .g-status{font-size:10px;min-height:14px;margin-top:6px;transition:.2s}
+
         /* المراسلة */
         #msg-ov{position:fixed;inset:0;z-index:25;background:rgba(8,8,14,.98);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:.3s;transform:translateY(100%);backdrop-filter:blur(8px)}
         #msg-ov.on{opacity:1;pointer-events:all;transform:translateY(0)}
         .mh{padding:8px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
+        .mh-left{display:flex;align-items:center;gap:6px}
+        .mh-left span{font-weight:900;font-size:12px}
+        .net-status{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px}
+        .net-status.ns-off{background:rgba(255,255,255,.04);color:var(--muted)}
+        .net-status.ns-wait{background:rgba(255,215,0,.08);color:var(--gold)}
+        .net-status.ns-on{background:rgba(0,230,118,.08);color:var(--green)}
+        .net-status.ns-err{background:rgba(255,45,85,.08);color:var(--red)}
+        .net-status i{font-size:7px}
+        .room-code-box{background:rgba(255,215,0,.06);border:1px dashed rgba(255,215,0,.2);border-radius:8px;padding:6px 10px;margin:6px 14px;font-size:10px;color:var(--gold);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+        .room-code-box b{font-family:monospace;letter-spacing:2px;font-size:13px}
+        .room-code-box button{background:transparent;border:1px solid rgba(255,215,0,.2);color:var(--gold);border-radius:5px;padding:2px 8px;font-size:9px;cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
+        .room-code-box button:hover{background:rgba(255,215,0,.1)}
         .ml{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:7px}
         .ml::-webkit-scrollbar{width:2px}
         .ml::-webkit-scrollbar-thumb{background:var(--border);border-radius:1px}
@@ -84,6 +114,7 @@
         .mc{border-radius:9px;padding:7px 11px;max-width:78%;animation:mI .2s ease-out;position:relative;overflow:hidden}
         .mc.mn{align-self:flex-start;background:linear-gradient(135deg,#0c2d48,#0e3553);border:1px solid rgba(0,229,255,.12)}
         .mc.th{align-self:flex-end;background:linear-gradient(135deg,#1a1025,#1e1230);border:1px solid rgba(179,136,255,.12)}
+        .mc.sys{align-self:center;background:transparent;border:1px dashed rgba(255,255,255,.06);color:var(--muted);font-size:10px;text-align:center;max-width:90%}
         @keyframes mI{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
         .mc .sn{font-size:9px;font-weight:700;margin-bottom:2px;display:flex;gap:3px;align-items:center}
         .mc .bd{font-size:12px;line-height:1.6;word-break:break-word;transition:filter .3s}
@@ -98,15 +129,16 @@
         /* إدارة الأدمن */
         .admin-panel{border-top:1px solid var(--border);padding:10px 14px;max-height:40vh;overflow-y:auto;flex-shrink:0}
         .admin-panel h4{font-size:11px;font-weight:700;margin-bottom:6px;color:var(--gold)}
-        .guest-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,.02)}
-        .guest-row .gn{color:var(--cyan);font-family:monospace;letter-spacing:1px}
+        .guest-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,.02);flex-wrap:wrap;gap:4px}
+        .guest-row .gn{color:var(--cyan);font-family:monospace;letter-spacing:1px;font-size:10px}
+        .guest-row .share-code{color:var(--purple);font-family:monospace;letter-spacing:1px;font-size:9px;background:rgba(179,136,255,.06);padding:1px 5px;border-radius:4px}
         .guest-row button{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:2px 8px;font-size:9px;cursor:pointer;transition:.2s;font-family:'Tajawal',sans-serif}
         .guest-row button:hover{border-color:var(--red);color:var(--red)}
         .add-guest{display:flex;gap:6px;margin-top:8px}
         .add-guest input{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--txt);font-family:'Tajawal',sans-serif;font-size:11px;outline:none}
         .add-guest button{background:linear-gradient(135deg,#0e7490,#06b6d4);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700}
 
-        /* مودال */
+        /* مودال المزامنة */
         .mobg{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(4px)}
         .mobg.on{opacity:1;pointer-events:all}
         .mo{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px;width:320px;max-width:90vw}
@@ -119,7 +151,11 @@
         .small-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:3px 5px;transition:.2s}
         .small-btn:hover{color:var(--cyan)}
 
-        @media(max-width:400px){.start-title{font-size:30px}.go-score{font-size:40px}}
+        /* تنبيه */
+        .toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 18px;font-size:12px;z-index:40;animation:toastIn .3s ease-out;pointer-events:none;white-space:nowrap}
+        @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+        @media(max-width:400px){.start-title{font-size:30px}.go-score{font-size:40px}.guest-box{width:95vw}}
     </style>
 </head>
 <body>
@@ -152,20 +188,40 @@
     <input class="go-input" id="gon" type="text" placeholder="اسمك للوحة المتصدرين" maxlength="30" autocomplete="off">
     <button class="go-btn" onclick="submitName()">حفظ النتيجة</button>
     <button class="go-retry" onclick="retry()">محاولة أخرى</button>
+    <button class="go-guest-btn" onclick="openGuestModal()"><i class="fas fa-link" style="margin-left:4px"></i> دخول كضيف</button>
     <div class="lb" id="lb"></div>
-    <div class="go-ver" id="ver">v1.2.0</div>
+    <div class="go-ver" id="ver">v2.0.0</div>
+</div>
+
+<!-- مودال دخول الضيف -->
+<div class="guest-modal" id="guest-modal">
+    <div class="guest-box">
+        <h3><i class="fas fa-user-friends" style="margin-left:4px"></i> دخول كضيف</h3>
+        <p>أدخل الرمز اللي أعطاك ياها المضيف<br>(شكله: <span style="font-family:monospace;color:var(--purple)">RXXXX-YYYYY</span>)</p>
+        <input class="gi" id="g-room" type="text" placeholder="رمز الغرفة (مثل R3ABC)" maxlength="10" autocomplete="off">
+        <input class="gi" id="g-code" type="text" placeholder="رمز الضيف (5 أحرف)" maxlength="8" autocomplete="off">
+        <button class="gb" id="g-connect" onclick="guestConnect()"><i class="fas fa-plug" style="margin-left:4px"></i> اتصل</button>
+        <button class="gb-cancel" onclick="closeGuestModal()">إلغاء</button>
+        <div class="g-status" id="g-status"></div>
+    </div>
 </div>
 
 <div id="msg-ov">
     <div class="mh">
-        <div style="display:flex;align-items:center;gap:5px">
-            <span style="font-weight:900;font-size:12px">الغرفة</span>
+        <div class="mh-left">
+            <span>الغرفة</span>
             <span class="mpill" id="mpill">---</span>
+            <span class="net-status ns-off" id="ns"><i class="fas fa-circle"></i> غير متصل</span>
         </div>
         <div style="display:flex;gap:3px">
             <button class="small-btn" onclick="openSync()" title="مزامنة"><i class="fas fa-sync"></i></button>
             <button class="small-btn" onclick="closeMsg()"><i class="fas fa-arrow-down"></i></button>
         </div>
+    </div>
+    <div class="room-code-box" id="rc-box" style="display:none">
+        <span><i class="fas fa-key" style="margin-left:3px"></i> رمز الغرفة:</span>
+        <b id="rc-display">---</b>
+        <button onclick="copyRoom()"><i class="fas fa-copy"></i> نسخ</button>
     </div>
     <div class="ml" id="ml"><div class="empty-msg">فارغ</div></div>
     <div class="mia" id="mia">
@@ -173,13 +229,13 @@
         <button class="ms" onclick="sendM()"><i class="fas fa-paper-plane"></i></button>
     </div>
     <div class="admin-panel" id="apanel" style="display:none">
-        <h4><i class="fas fa-key" style="margin-left:4px"></i> رموز الضيوف</h4>
+        <h4><i class="fas fa-users-cog" style="margin-left:4px"></i> إدارة الضيوف</h4>
         <div id="glist"></div>
         <div class="add-guest">
             <input id="newg" type="text" placeholder="اسم الضيف" maxlength="15">
             <button onclick="addGuest()">إنشاء</button>
         </div>
-        <p style="font-size:9px;color:var(--muted);margin-top:6px">أعطِ الضيف الرمز اللي يظهر له، يستخدمه كاسم في شاشة النتيجة</p>
+        <p style="font-size:9px;color:var(--muted);margin-top:6px">رمز المشاركة = رمز الغرفة + رمز الضيف<br>أعطِ الضيف الرمز الكامل عشان يتصل من تلفونه</p>
     </div>
 </div>
 
@@ -194,9 +250,13 @@
 </div>
 
 <script>
-/* ===== كلمة سر الأدمن (مشفّرة - ما تبان بالكود) ===== */
-const _K=[1604,1627,1618,72,72,72];
-const ADMIN_KEY=_K.map(c=>String.fromCharCode(c-17)).join('');
+/* ===== ثوابت ===== */
+const ADMIN_KEY = 'MUH206582026';
+
+/* ===== رمز الغرفة (اشتقاق من كلمة سر الأدمن) ===== */
+function dRoom(k){let h=0;for(let i=0;i<k.length;i++){h=((h<<5)-h+k.charCodeAt(i))|0}return'R'+Math.abs(h).toString(36).toUpperCase().padStart(5,'0').substring(0,5)}
+const ROOM_CODE = dRoom(ADMIN_KEY);
+const PEER_ID = 'ptiles-' + ROOM_CODE;
 
 /* ===== حالة اللعبة ===== */
 const G={score:0,lives:3,ML:3,combo:0,speed:2,bs:2,running:false,rows:[],nid:0,best:0,raf:null,lt:0};
@@ -204,6 +264,9 @@ const RH=95;
 
 /* ===== حالة المراسلة ===== */
 const M={mode:null,name:'',msgs:[],stimers:[],viewed:new Set(),guests:{}};
+
+/* ===== حالة الشبكة (PeerJS) ===== */
+const Net={peer:null,conns:[],isHost:false,myName:'',guestCode:'',roomCode:''};
 
 /* ===== تشفير ===== */
 function enc(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)))}
@@ -214,6 +277,13 @@ let ac=null;
 function gn(f){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(f,ac.currentTime);g.gain.setValueAtTime(.07,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.22);o.start(ac.currentTime);o.stop(ac.currentTime+.22)}catch(e){}}
 const NF=[261.63,329.63,392,523.25];
 function errSnd(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='square';o.frequency.setValueAtTime(140,ac.currentTime);g.gain.setValueAtTime(.03,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.12);o.start(ac.currentTime);o.stop(ac.currentTime+.12)}catch(e){}}
+
+/* ===== تنبيهات ===== */
+function showToast(msg,color){
+    const t=document.createElement('div');t.className='toast';t.textContent=msg;
+    if(color)t.style.color=color;
+    document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},2200);
+}
 
 /* ===== اللعبة ===== */
 const bEl=document.getElementById('board');
@@ -245,7 +315,6 @@ function loop(t){
     if(!G.running)return;
     const dt=Math.min(t-G.lt,50);G.lt=t;
     const bH=bEl.offsetHeight;const mv=G.speed*dt*.12;
-
     for(const r of G.rows){
         r.y+=mv;r.el.style.top=r.y+'px';
         if(!r.tapped&&!r.missed&&r.y>bH+8){
@@ -300,25 +369,15 @@ function gLB(){try{return JSON.parse(localStorage.getItem('pt_lb'))||[]}catch(e)
 function sLB(l){localStorage.setItem('pt_lb',JSON.stringify(l))}
 function rLB(){const lb=gLB();const el=document.getElementById('lb');if(!lb.length){el.innerHTML='';return}el.innerHTML=lb.sort((a,b)=>b.s-a.s).slice(0,8).map((e,i)=>`<div class="lb-row"><span class="n">${i+1}. ${esc(e.n)}</span><span class="s">${e.s}</span></div>`).join('')}
 
-/* ===== الإسم = كلمة السر ===== */
+/* ===== إرسال الاسم ===== */
 function submitName(){
     const v=document.getElementById('gon').value.trim();if(!v)return;
-
     /* أدمن؟ */
     if(v===ADMIN_KEY){
         M.mode='admin';M.name='أدمن';
         document.getElementById('gameover').classList.remove('on');
         openMsg();return;
     }
-
-    /* ضيف؟ */
-    loadGuests();
-    if(M.guests[v]){
-        M.mode='guest';M.name=M.guests[v].name||v;
-        document.getElementById('gameover').classList.remove('on');
-        openMsg();return;
-    }
-
     /* عادي - لوحة المتصدرين */
     const lb=gLB();lb.push({n:v,s:G.score});sLB(lb);rLB();
     document.getElementById('gon').value='';
@@ -328,7 +387,6 @@ function submitName(){
 /* ===== إدارة الضيوف ===== */
 function loadGuests(){try{M.guests=JSON.parse(localStorage.getItem('pt_g'))||{}}catch(e){M.guests={}}}
 function saveGuests(){localStorage.setItem('pt_g',JSON.stringify(M.guests))}
-
 function genCode(){const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let r='';for(let i=0;i<5;i++)r+=ch[Math.floor(Math.random()*ch.length)];return r}
 
 function addGuest(){
@@ -338,12 +396,11 @@ function addGuest(){
     M.guests[code]={name,created:Date.now()};
     saveGuests();renderGuests();
     document.getElementById('newg').value='';
-
-    /* إشعار بالرمز */
+    /* إشعار بالرمز المشارك */
+    const shareCode=ROOM_CODE+'-'+code;
     const list=document.getElementById('ml');
-    const note=document.createElement('div');
-    note.style.cssText='text-align:center;padding:8px;font-size:11px;color:var(--gold);border:1px dashed rgba(255,215,0,.2);border-radius:8px;margin-bottom:4px';
-    note.innerHTML=`<i class="fas fa-key" style="margin-left:4px"></i> رمز <b style="font-family:monospace;letter-spacing:2px">${code}</b> لـ ${esc(name)}`;
+    const note=document.createElement('div');note.className='mc sys';
+    note.innerHTML=`<i class="fas fa-key" style="margin-left:3px"></i> رمز المشاركة لـ ${esc(name)}: <b style="font-family:monospace;letter-spacing:1px;color:var(--purple)">${shareCode}</b>`;
     list.appendChild(note);list.scrollTop=list.scrollHeight;
 }
 
@@ -353,25 +410,248 @@ function renderGuests(){
     loadGuests();const el=document.getElementById('glist');
     const keys=Object.keys(M.guests);
     if(!keys.length){el.innerHTML='<div style="font-size:10px;color:var(--muted)">لا يوجد ضيوف بعد</div>';return}
-    el.innerHTML=keys.map(k=>`<div class="guest-row"><span>${esc(M.guests[k].name)}</span><span class="gn">${k}</span><div style="display:flex;gap:3px"><button onclick="copyG('${k}')"><i class="fas fa-copy"></i></button><button onclick="removeGuest('${k}')"><i class="fas fa-times"></i></button></div></div>`).join('');
+    el.innerHTML=keys.map(k=>{
+        const shareCode=ROOM_CODE+'-'+k;
+        return`<div class="guest-row"><span>${esc(M.guests[k].name)}</span><span class="share-code">${shareCode}</span><div style="display:flex;gap:3px"><button onclick="copyShare('${shareCode}')" title="نسخ رمز المشاركة"><i class="fas fa-copy"></i></button><button onclick="removeGuest('${k}')" title="حذف"><i class="fas fa-times"></i></button></div></div>`
+    }).join('');
 }
 
-function copyG(code){navigator.clipboard.writeText(code).catch(()=>{})}
+function copyShare(code){navigator.clipboard.writeText(code).then(()=>showToast('تم نسخ رمز المشاركة','var(--green)')).catch(()=>{fCp(code);showToast('تم النسخ!','var(--green)')})}
+function copyRoom(){const full='الغرفة: '+ROOM_CODE;navigator.clipboard.writeText(ROOM_CODE).then(()=>showToast('تم نسخ رمز الغرفة','var(--green)')).catch(()=>{fCp(ROOM_CODE);showToast('تم النسخ!','var(--green)')})}
+function fCp(t){const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;left:-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)}
+
+/* ===== مودال دخول الضيف ===== */
+function openGuestModal(){
+    document.getElementById('guest-modal').classList.add('on');
+    document.getElementById('g-room').value='';
+    document.getElementById('g-code').value='';
+    document.getElementById('g-status').innerHTML='';
+    setTimeout(()=>document.getElementById('g-room').focus(),300);
+}
+function closeGuestModal(){document.getElementById('guest-modal').classList.remove('on')}
+
+function guestConnect(){
+    const roomCode=document.getElementById('g-room').value.trim().toUpperCase();
+    const guestCode=document.getElementById('g-code').value.trim().toUpperCase();
+    const stEl=document.getElementById('g-status');
+    if(!roomCode||!guestCode){stEl.innerHTML='<span style="color:var(--red)">أدخل الرمزين</span>';return}
+    stEl.innerHTML='<span style="color:var(--gold)"><i class="fas fa-spinner fa-spin"></i> جاري الاتصال...</span>';
+
+    M.mode='guest';M.name='ضيف';Net.guestCode=guestCode;Net.roomCode=roomCode;
+    /* غلق المودال وفتح المراسلة */
+    closeGuestModal();
+    document.getElementById('gameover').classList.remove('on');
+    openMsg();
+    /* إنشاء اتصال PeerJS كضيف */
+    createGuest(roomCode,guestCode);
+}
+
+/* ===== PeerJS - إدارة الاتصال ===== */
+function destroyNet(){
+    Net.conns.forEach(c=>{try{c.close()}catch(e){}});
+    if(Net.peer){try{Net.peer.destroy()}catch(e){}}
+    Net.peer=null;Net.conns=[];Net.isHost=false;
+}
+
+function showNetStatus(type,text){
+    const el=document.getElementById('ns');
+    if(!el)return;
+    el.className='net-status';
+    if(type==='offline')el.classList.add('ns-off');
+    else if(type==='wait')el.classList.add('ns-wait');
+    else if(type==='online')el.classList.add('ns-on');
+    else if(type==='error')el.classList.add('ns-err');
+    else el.classList.add('ns-off');
+    el.innerHTML=`<i class="fas fa-circle"></i> ${text}`;
+}
+
+/* إنشاء مضيف (أدمن) */
+function createHost(){
+    destroyNet();
+    Net.isHost=true;Net.myName='أدمن';
+    showNetStatus('wait','جاري الاتصال...');
+
+    Net.peer=new Peer(PEER_ID,{debug:0});
+
+    Net.peer.on('open',()=>{
+        showNetStatus('wait','بانتظار الضيوف');
+        showToast('تم إنشاء الغرفة','var(--green)');
+    });
+
+    Net.peer.on('connection',conn=>{
+        handleHostConn(conn);
+    });
+
+    Net.peer.on('error',err=>{
+        if(err.type==='unavailable-id'){
+            /* رمز الغرفة مستخدم - محاولة بإضافة لاحقة */
+            destroyNet();
+            Net.peer=new Peer(PEER_ID+'-'+Date.now(),{debug:0});
+            Net.peer.on('open',()=>showNetStatus('wait','بانتظار الضيوف'));
+            Net.peer.on('connection',conn=>handleHostConn(conn));
+            Net.peer.on('error',()=>showNetStatus('error','خطأ بالاتصال'));
+        }else{
+            showNetStatus('error','خطأ بالاتصال');
+        }
+    });
+
+    Net.peer.on('disconnected',()=>{
+        showNetStatus('offline','غير متصل');
+        if(Net.peer&&!Net.peer.destroyed)setTimeout(()=>{try{Net.peer.reconnect()}catch(e){}},3000);
+    });
+}
+
+/* إنشاء ضيف */
+function createGuest(targetRoomCode,guestCode){
+    destroyNet();
+    Net.isHost=false;Net.guestCode=guestCode;Net.roomCode=targetRoomCode;
+    const targetPeerId='ptiles-'+targetRoomCode;
+    showNetStatus('wait','جاري الاتصال...');
+
+    Net.peer=new Peer(undefined,{debug:0});
+
+    Net.peer.on('open',()=>{
+        const conn=Net.peer.connect(targetPeerId,{reliable:true});
+        setupGuestConn(conn,guestCode);
+    });
+
+    Net.peer.on('error',err=>{
+        showNetStatus('error','تعذر الاتصال');
+        showToast('تأكد أن المضيف متصل والرمز صحيح','var(--red)');
+    });
+
+    Net.peer.on('disconnected',()=>{
+        showNetStatus('offline','انقطع الاتصال');
+        if(Net.peer&&!Net.peer.destroyed)setTimeout(()=>{try{Net.peer.reconnect()}catch(e){}},3000);
+    });
+}
+
+/* التعامل مع اتصال وارد (مضيف) */
+function handleHostConn(conn){
+    let authed=false;let guestName='';
+
+    conn.on('open',()=>{
+        /* بانتظار المصادقة */
+    });
+
+    conn.on('data',data=>{
+        if(data.type==='auth'){
+            loadGuests();
+            if(M.guests[data.code]){
+                authed=true;guestName=M.guests[data.code].name||data.code;
+                conn._meta={name:guestName,code:data.code,authed:true};
+                Net.conns.push(conn);
+                conn.send({type:'auth-ok',name:guestName});
+                showNetStatus('online','ضيف: '+guestName);
+                /* إرسال سجل الرسائل */
+                conn.send({type:'history',msgs:M.msgs});
+                /* رسالة نظام */
+                addSystemMsg(guestName+' دخل الغرفة');
+                showToast(guestName+' اتصل','var(--green)');
+            }else{
+                conn.send({type:'auth-fail'});
+                setTimeout(()=>{try{conn.close()}catch(e){}},500);
+            }
+        }else if(data.type==='msg'&&authed){
+            /* رسالة من ضيف */
+            const msg=data.msg;
+            if(!M.msgs.find(x=>x.id===msg.id)){M.msgs.push(msg);saveMsgs();renderMsgs();}
+            gn(392);
+            /* بث لباقي الضيوف */
+            Net.conns.forEach(c=>{if(c!==conn&&c._meta&&c._meta.authed&&c.open){try{c.send({type:'msg',msg})}catch(e){}}});
+        }
+    });
+
+    conn.on('close',()=>{
+        Net.conns=Net.conns.filter(c=>c!==conn);
+        if(authed){
+            addSystemMsg(guestName+' غادر الغرفة');
+            if(!Net.conns.length)showNetStatus('wait','بانتظار الضيوف');
+            else showNetStatus('online',Net.conns.length+' ضيف متصل');
+        }
+    });
+
+    conn.on('error',()=>{
+        Net.conns=Net.conns.filter(c=>c!==conn);
+    });
+}
+
+/* إعداد اتصال الضيف */
+function setupGuestConn(conn,guestCode){
+    conn.on('open',()=>{
+        conn.send({type:'auth',code:guestCode});
+        showNetStatus('wait','جاري المصادقة...');
+    });
+
+    conn.on('data',data=>{
+        if(data.type==='auth-ok'){
+            Net.myName=data.name;M.name=data.name;
+            Net.conns.push(conn);
+            showNetStatus('online','متصل كـ '+data.name);
+            showToast('تم الاتصال بنجاح!','var(--green)');
+        }else if(data.type==='auth-fail'){
+            showNetStatus('error','رمز الضيف مرفوض');
+            showToast('رمز الضيف غير صالح','var(--red)');
+            try{conn.close()}catch(e){}
+        }else if(data.type==='history'){
+            let added=0;
+            data.msgs.forEach(m=>{if(!M.msgs.find(x=>x.id===m.id)){M.msgs.push(m);added++}});
+            if(added>0){M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgs();renderMsgs();}
+        }else if(data.type==='msg'){
+            const msg=data.msg;
+            if(!M.msgs.find(x=>x.id===msg.id)){M.msgs.push(msg);saveMsgs();renderMsgs();}
+            gn(392);
+        }else if(data.type==='system'){
+            addSystemMsg(data.text);
+        }
+    });
+
+    conn.on('close',()=>{
+        Net.conns=Net.conns.filter(c=>c!==conn);
+        showNetStatus('error','انقطع الاتصال');
+    });
+
+    conn.on('error',()=>{
+        showNetStatus('error','خطأ بالاتصال');
+    });
+}
+
+/* إرسال رسالة عبر الشبكة */
+function sendNetMsg(msg){
+    if(Net.isHost){
+        Net.conns.forEach(conn=>{
+            if(conn.open&&conn._meta&&conn._meta.authed){
+                try{conn.send({type:'msg',msg})}catch(e){}
+            }
+        });
+    }else{
+        Net.conns.forEach(conn=>{
+            if(conn.open){try{conn.send({type:'msg',msg})}catch(e){}}
+        });
+    }
+}
 
 /* ===== المراسلة ===== */
 function openMsg(){
     document.getElementById('msg-ov').classList.add('on');
     const p=document.getElementById('mpill');
-    if(M.mode==='admin'){p.textContent='أدمن';p.className='mpill mp-a'}
-    else{p.textContent='ضيف';p.className='mpill mp-g'}
-
+    if(M.mode==='admin'){
+        p.textContent='أدمن';p.className='mpill mp-a';
+        document.getElementById('rc-box').style.display='flex';
+        document.getElementById('rc-display').textContent=ROOM_CODE;
+    }else{
+        p.textContent='ضيف';p.className='mpill mp-g';
+        document.getElementById('rc-box').style.display='none';
+    }
     document.getElementById('mia').style.display='flex';
-
     /* لوحة الإدارة للأدمن فقط */
     document.getElementById('apanel').style.display=M.mode==='admin'?'block':'none';
     if(M.mode==='admin')renderGuests();
-
     loadMsgs();renderMsgs();
+    /* إنشاء اتصال شبكة لو أدمن */
+    if(M.mode==='admin'&&!Net.peer){
+        createHost();
+    }
 }
 
 function closeMsg(){
@@ -381,6 +661,10 @@ function closeMsg(){
         M.msgs.forEach(m=>M.viewed.add(m.id));
         localStorage.setItem('pt_v',JSON.stringify([...M.viewed]));
     }
+    /* ما نخربش الاتصال - نخليه شغال */
+    if(!Net.isHost){
+        /* الضيف يقدر يغلق ويرجع */
+    }
     M.mode=null;
     document.getElementById('gameover').classList.add('on');
 }
@@ -389,10 +673,20 @@ function loadMsgs(){try{M.msgs=JSON.parse(localStorage.getItem('pt_m'))||[]}catc
 try{M.viewed=new Set(JSON.parse(localStorage.getItem('pt_v')))}catch(e){M.viewed=new Set()}}
 function saveMsgs(){localStorage.setItem('pt_m',JSON.stringify(M.msgs))}
 
+function addSystemMsg(text){
+    const sysMsg={id:'sys-'+Date.now().toString(36),who:'system',text,ts:Date.now(),admin:true,system:true};
+    M.msgs.push(sysMsg);saveMsgs();renderMsgs();
+    /* بث للضيوف */
+    if(Net.isHost){Net.conns.forEach(conn=>{if(conn.open&&conn._meta&&conn._meta.authed){try{conn.send({type:'system',text})}catch(e){}}})}
+}
+
 function sendM(){
     const inp=document.getElementById('minp');const t=inp.value.trim();if(!t)return;
-    M.msgs.push({id:Date.now().toString(36)+Math.random().toString(36).substr(2,4),who:M.name,text:t,ts:Date.now(),admin:M.mode==='admin'});
-    saveMsgs();inp.value='';inp.style.height='auto';renderMsgs();gn(523);
+    const msg={id:Date.now().toString(36)+Math.random().toString(36).substr(2,4),who:M.name||Net.myName,text:t,ts:Date.now(),admin:M.mode==='admin'};
+    M.msgs.push(msg);saveMsgs();inp.value='';inp.style.height='auto';
+    renderMsgs();gn(523);
+    /* إرسال عبر الشبكة */
+    sendNetMsg(msg);
 }
 
 function mKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendM()}}
@@ -400,21 +694,37 @@ function mAuto(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeig
 
 function renderMsgs(){
     const list=document.getElementById('ml');
-    let vis=M.msgs;
-    if(M.mode==='guest')vis=M.msgs.filter(m=>!M.viewed.has(m.id));
-    if(!vis.length){list.innerHTML='<div class="empty-msg"><i class="fas fa-comment" style="font-size:18px;display:block;margin-bottom:4px;opacity:.2"></i>فارغ</div>';return}
+    let vis=M.msgs.filter(m=>!m.system);/* رسائل النظام بنعرضها بشكل مختلف */
+    if(M.mode==='guest')vis=vis.filter(m=>!M.viewed.has(m.id));
+    /* جمع كل الرسائل مع رسائل النظام */
+    let all=M.msgs.filter(m=>{
+        if(m.system)return true;
+        if(M.mode==='guest'&&!M.viewed.has(m.id))return true;
+        if(M.mode==='admin')return true;
+        return false;
+    }).sort((a,b)=>a.ts-b.ts);
+
+    if(!all.length){list.innerHTML='<div class="empty-msg"><i class="fas fa-comment" style="font-size:18px;display:block;margin-bottom:4px;opacity:.2"></i>فارغ</div>';return}
     let h='';
-    vis.forEach(m=>{
-        const mine=m.who===M.name;const sc=mine?'mn':'th';
+    all.forEach(m=>{
+        if(m.system){
+            h+=`<div class="mc sys"><i class="fas fa-info-circle" style="margin-left:3px"></i> ${esc(m.text)}</div>`;
+            return;
+        }
+        const mine=m.who===(M.name||Net.myName);const sc=mine?'mn':'th';
         const tag=m.admin?'<span style="color:var(--gold);font-size:7px">★</span>':'';
         const time=new Date(m.ts).toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
-        const ig=M.mode==='guest';
+        const ig=M.mode==='guest'&&!m.admin;
         const sb=ig?`<div class="sbar"><div class="sfill" id="sf-${m.id}" style="width:100%"></div></div>`:'';
-        const burned=ig&&M.viewed.has(m.id);
+        const burned=M.mode==='guest'&&M.viewed.has(m.id);
         h+=`<div class="mc ${sc} ${burned?'burned':''}" id="mc-${m.id}"><div class="sn">${tag} ${esc(m.who)}</div><div class="bd">${esc(m.text)}</div><div class="mt">${time}</div>${sb}</div>`;
     });
     list.innerHTML=h;requestAnimationFrame(()=>{list.scrollTop=list.scrollHeight});
-    if(M.mode==='guest'){M.stimers.forEach(t=>clearInterval(t));M.stimers=[];vis.forEach(m=>startSnap(m.id))}
+    /* مؤقتات التدمير الذاتي للضيف */
+    M.stimers.forEach(t=>clearInterval(t));M.stimers=[];
+    if(M.mode==='guest'){
+        all.filter(m=>!m.system&&!M.viewed.has(m.id)).forEach(m=>startSnap(m.id));
+    }
 }
 
 function startSnap(id){
@@ -434,20 +744,23 @@ function openSync(){document.getElementById('sync-mo').classList.add('on');docum
 function expD(){
     try{const d=enc(JSON.stringify(M.msgs),ADMIN_KEY);navigator.clipboard.writeText(d).then(()=>{document.getElementById('sst').innerHTML='<span style="color:var(--green)">تم النسخ!</span>'}).catch(()=>{fCp(d);document.getElementById('sst').innerHTML='<span style="color:var(--green)">تم النسخ!</span>'})}catch(e){document.getElementById('sst').innerHTML='<span style="color:var(--red)">خطأ</span>'}
 }
-function fCp(t){const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;left:-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)}
 function impD(){
     const r=document.getElementById('impb').value.trim();if(!r){document.getElementById('sst').innerHTML='<span style="color:var(--red)">الصق أولاً</span>';return}
     try{const d=dec(r,ADMIN_KEY);if(!d)throw 0;const arr=JSON.parse(d);if(!Array.isArray(arr))throw 0;let n=0;arr.forEach(m=>{if(!M.msgs.find(x=>x.id===m.id)){M.msgs.push(m);n++}});M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgs();renderMsgs();document.getElementById('sst').innerHTML=`<span style="color:var(--green)">تم تحميل ${n}</span>`}catch(e){document.getElementById('sst').innerHTML='<span style="color:var(--red)">بيانات غير صالحة</span>'}
 }
 
-/* إغلاق المودال */
+/* إغلاق المودالات */
 document.getElementById('sync-mo').addEventListener('click',e=>{if(e.target===e.currentTarget)e.target.classList.remove('on')});
+document.getElementById('guest-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeGuestModal()});
 
 /* ===== تحميل ===== */
 (function(){const b=localStorage.getItem('pt_b');if(b)G.best=parseInt(b)||0})();
 
-/* BroadcastChannel */
+/* BroadcastChannel - مزامنة بين تبويبات نفس الجهاز */
 try{const bc=new BroadcastChannel('pt_c');bc.onmessage=e=>{if(e.data&&e.data.m){let n=0;e.data.m.forEach(m=>{if(!M.msgs.find(x=>x.id===m.id)){M.msgs.push(m);n++}});if(n>0){M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgs();if(document.getElementById('msg-ov').classList.contains('on'))renderMsgs()}}};const _sv=saveMsgs;saveMsgs=function(){_sv();try{bc.postMessage({m:M.msgs})}catch(e){}}}catch(e){}
+
+/* تنظيف عند إغلاق الصفحة */
+window.addEventListener('beforeunload',()=>{destroyNet()});
 </script>
 </body>
 </html>
