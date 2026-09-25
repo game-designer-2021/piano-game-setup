@@ -11,8 +11,7 @@
     <style>
         :root{--bg:#0a0a0f;--card:#111118;--border:#1c1c28;--gold:#ffd700;--red:#ff2d55;--cyan:#00e5ff;--green:#00e676;--purple:#b388ff;--txt:#e8e8f0;--muted:#555}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden;height:100vh;height:100dvh;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
-
+        body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden;height:100vh;height:100dvh;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-text-size-adjust:100%}
         #game{position:fixed;inset:0;display:flex;flex-direction:column}
         .hud{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(10,10,15,.92);border-bottom:1px solid var(--border);z-index:5;flex-shrink:0}
         .hud-score{font-size:22px;font-weight:900;letter-spacing:1px}
@@ -22,7 +21,6 @@
         .hud-speed{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px}
         .hud-speed bar{width:44px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;display:inline-block}
         .hud-speed fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--red));border-radius:2px;display:block;transition:width .3s}
-
         .board{flex:1;position:relative;overflow:hidden;display:flex}
         .col{flex:1;border-left:1px solid rgba(255,255,255,.025);position:relative}
         .col:first-child{border-left:none}
@@ -34,21 +32,18 @@
         .cell.flash-hit{background:rgba(0,229,255,.12)!important;transition:background .04s}
         .cell.flash-miss{background:rgba(255,45,85,.18)!important;transition:background .04s}
         .tap-line{position:absolute;bottom:70px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,45,85,.25),transparent);opacity:.4;z-index:2}
-
         .float-score{position:absolute;pointer-events:none;font-weight:900;font-size:17px;z-index:4;animation:fS .65s ease-out forwards}
         @keyframes fS{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-45px)}}
         .combo-pop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:32px;font-weight:900;pointer-events:none;z-index:6;animation:cP .45s ease-out forwards}
         @keyframes cP{0%{opacity:1;transform:translate(-50%,-50%) scale(.5)}50%{transform:translate(-50%,-50%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-50%) scale(1)}}
         .screen-flash{position:fixed;inset:0;pointer-events:none;z-index:8;animation:sF .25s ease-out forwards}
         @keyframes sF{0%{opacity:1}100%{opacity:0}}
-
         #start{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .4s}
         #start.off{opacity:0;pointer-events:none}
         .start-title{font-size:40px;font-weight:900;letter-spacing:-1px}
         .start-sub{font-size:12px;color:var(--muted)}
         .start-btn{background:linear-gradient(135deg,#1a1a2e,#2a2a3e);border:1px solid var(--border);color:var(--txt);padding:13px 44px;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:.3s}
         .start-btn:hover{border-color:var(--cyan);box-shadow:0 0 16px rgba(0,229,255,.08)}
-
         #gameover{position:fixed;inset:0;z-index:15;background:rgba(10,10,15,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:0;pointer-events:none;transition:.35s;backdrop-filter:blur(6px)}
         #gameover.on{opacity:1;pointer-events:all}
         .go-label{font-size:13px;color:var(--red);font-weight:700;letter-spacing:2px}
@@ -69,15 +64,14 @@
         .lb::-webkit-scrollbar-thumb{background:var(--border);border-radius:1px}
         .lb-row{display:flex;justify-content:space-between;padding:2px 0;font-size:10px;border-bottom:1px solid rgba(255,255,255,.02)}
         .lb-row .n{color:var(--muted)}.lb-row .s{color:var(--gold);font-weight:700}
-
         .guest-modal{position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(6px)}
         .guest-modal.on{opacity:1;pointer-events:all}
         .guest-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;width:300px;max-width:90vw;text-align:center}
         .guest-box h3{font-size:15px;font-weight:900;margin-bottom:8px;color:var(--purple)}
         .guest-box p{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.6}
-        .gi{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--txt);font-family:'Tajawal',sans-serif;font-size:13px;width:100%;outline:none;text-align:center;transition:.3s;margin-bottom:8px;direction:ltr}
+        .gi{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--txt);font-family:'Tajawal',sans-serif;font-size:12px;width:100%;outline:none;text-align:center;transition:.3s;margin-bottom:8px;direction:ltr}
         .gi:focus{border-color:rgba(179,136,255,.4)}
-        .gi::placeholder{color:var(--muted);direction:rtl}
+        .gi::placeholder{color:var(--muted);direction:rtl;font-size:11px}
         .gb{background:linear-gradient(135deg,#4a148c,#7b1fa2);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:.3s;width:100%;margin-top:4px}
         .gb:hover{box-shadow:0 3px 12px rgba(179,136,255,.2)}
         .gb:disabled{opacity:.5;cursor:not-allowed}
@@ -85,8 +79,6 @@
         .gb-cancel:hover{border-color:var(--muted);color:var(--txt)}
         .g-status{font-size:10px;min-height:14px;margin-top:6px;transition:.2s;line-height:1.5}
         .g-tips{font-size:9px;color:var(--muted);margin-top:10px;line-height:1.6;text-align:right;border-top:1px solid var(--border);padding-top:8px}
-
-        /* تأكيد الحذف */
         .confirm-modal{position:fixed;inset:0;z-index:38;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(4px)}
         .confirm-modal.on{opacity:1;pointer-events:all}
         .confirm-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;width:260px;max-width:90vw;text-align:center}
@@ -94,7 +86,6 @@
         .confirm-btns{display:flex;gap:8px;justify-content:center}
         .confirm-yes{background:var(--red);color:#fff;border:none;border-radius:8px;padding:8px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:12px;cursor:pointer}
         .confirm-no{background:transparent;border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:8px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:12px;cursor:pointer}
-
         #msg-ov{position:fixed;inset:0;z-index:25;background:rgba(8,8,14,.98);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:.3s;transform:translateY(100%);backdrop-filter:blur(8px)}
         #msg-ov.on{opacity:1;pointer-events:all;transform:translateY(0)}
         .mh{padding:8px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -106,8 +97,6 @@
         .net-status.ns-on{background:rgba(0,230,118,.08);color:var(--green)}
         .net-status.ns-err{background:rgba(255,45,85,.08);color:var(--red)}
         .net-status i{font-size:7px}
-
-        /* تبويبات الغرف */
         .room-tabs{display:flex;gap:5px;padding:6px 14px;overflow-x:auto;flex-shrink:0;border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch;align-items:center}
         .room-tabs::-webkit-scrollbar{height:0}
         .rtab{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Tajawal',sans-serif;flex-shrink:0}
@@ -117,24 +106,20 @@
         .rtab-add:hover{border-color:var(--cyan);color:var(--cyan)}
         .rtab-del{font-size:8px;margin-right:4px;opacity:.4;cursor:pointer;transition:.15s}
         .rtab-del:hover{opacity:1;color:var(--red)}
-
         .room-code-box{background:rgba(255,215,0,.06);border:1px dashed rgba(255,215,0,.2);border-radius:8px;padding:6px 10px;margin:6px 14px;font-size:10px;color:var(--gold);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
         .room-code-box b{font-family:monospace;letter-spacing:2px;font-size:13px}
         .room-code-box button{background:transparent;border:1px solid rgba(255,215,0,.2);color:var(--gold);border-radius:5px;padding:2px 8px;font-size:9px;cursor:pointer;font-family:'Tajawal',sans-serif;transition:.2s}
         .room-code-box button:hover{background:rgba(255,215,0,.1)}
-
         .ml{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 14px;display:flex;flex-direction:column;gap:7px;min-height:0}
         .ml::-webkit-scrollbar{width:2px}
         .ml::-webkit-scrollbar-thumb{background:var(--border);border-radius:1px}
         .load-more-btn{align-self:center;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 16px;font-family:'Tajawal',sans-serif;font-size:10px;cursor:pointer;transition:.2s;flex-shrink:0;margin-bottom:4px}
         .load-more-btn:hover{border-color:var(--cyan);color:var(--cyan)}
-
         .mia{padding:8px 14px;border-top:1px solid var(--border);display:flex;gap:6px;align-items:flex-end;flex-shrink:0}
         .mi{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--txt);font-family:'Tajawal',sans-serif;font-size:13px;outline:none;resize:none;max-height:60px;transition:.3s}
         .mi:focus{border-color:rgba(0,229,255,.3)}
         .ms{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#0e7490,#06b6d4);border:none;color:#fff;font-size:13px;cursor:pointer;flex-shrink:0;transition:.2s}
         .ms:hover{box-shadow:0 2px 8px rgba(0,229,255,.2)}
-
         .mc{border-radius:9px;padding:7px 11px;max-width:78%;animation:mI .2s ease-out;position:relative;overflow:hidden;flex-shrink:0;min-height:36px}
         .mc.mn{align-self:flex-start;background:linear-gradient(135deg,#0c2d48,#0e3553);border:1px solid rgba(0,229,255,.12)}
         .mc.th{align-self:flex-end;background:linear-gradient(135deg,#1a1025,#1e1230);border:1px solid rgba(179,136,255,.12)}
@@ -144,7 +129,6 @@
         .mc .bd{font-size:13px;line-height:1.7;word-break:break-word;transition:filter .3s;min-height:18px}
         .mc .mt{font-size:8px;color:var(--muted);margin-top:3px;min-height:10px}
         .mc.burned .bd{filter:blur(8px);user-select:none}
-        /* زر حذف الرسالة */
         .mc .mdel{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:rgba(255,45,85,.15);border:none;color:var(--red);font-size:8px;cursor:pointer;display:none;align-items:center;justify-content:center;transition:.15s;padding:0}
         .mc:hover .mdel,.mc:active .mdel{display:flex}
         .mc .mdel:hover{background:var(--red);color:#fff}
@@ -153,12 +137,10 @@
         .mpill{font-size:8px;padding:1px 6px;border-radius:8px;font-weight:700}
         .mp-a{background:rgba(255,215,0,.08);color:var(--gold)}
         .mp-g{background:rgba(255,45,85,.08);color:var(--red)}
-
         .admin-panel{border-top:1px solid var(--border);padding:10px 14px;max-height:40vh;overflow-y:auto;flex-shrink:0}
         .admin-panel h4{font-size:11px;font-weight:700;margin-bottom:6px;color:var(--gold)}
         .guest-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,.02);flex-wrap:wrap;gap:4px}
-        .guest-row .gn{color:var(--cyan);font-family:monospace;letter-spacing:1px;font-size:10px}
-        .guest-row .share-code{color:var(--purple);font-family:monospace;letter-spacing:1px;font-size:9px;background:rgba(179,136,255,.06);padding:1px 5px;border-radius:4px}
+        .guest-row .share-code{color:var(--purple);font-family:monospace;letter-spacing:0;font-size:8px;background:rgba(179,136,255,.06);padding:1px 5px;border-radius:4px;word-break:break-all}
         .guest-row button{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:2px 8px;font-size:9px;cursor:pointer;transition:.2s;font-family:'Tajawal',sans-serif}
         .guest-row button:hover{border-color:var(--red);color:var(--red)}
         .add-guest{display:flex;gap:6px;margin-top:8px}
@@ -166,7 +148,6 @@
         .add-guest button{background:linear-gradient(135deg,#0e7490,#06b6d4);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700}
         .clear-msgs-btn{background:transparent;border:1px solid rgba(255,45,85,.2);color:var(--red);border-radius:6px;padding:5px 10px;font-size:9px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;width:100%;margin-top:8px;transition:.2s}
         .clear-msgs-btn:hover{border-color:var(--red);background:rgba(255,45,85,.06)}
-
         .mobg{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(4px)}
         .mobg.on{opacity:1;pointer-events:all}
         .mo{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px;width:320px;max-width:90vw}
@@ -174,378 +155,206 @@
         .moin:focus{border-color:rgba(0,229,255,.3)}
         .mob{background:linear-gradient(135deg,#0e7490,#06b6d4);color:#fff;border:none;border-radius:7px;padding:7px 14px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:.3s;width:100%}
         .mob:hover{box-shadow:0 2px 8px rgba(0,229,255,.15)}
-
         .empty-msg{text-align:center;padding:24px 14px;color:var(--muted);font-size:11px;flex-shrink:0}
         .small-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:3px 5px;transition:.2s}
         .small-btn:hover{color:var(--cyan)}
-
         .toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 18px;font-size:12px;z-index:40;animation:toastIn .3s ease-out;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
         @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
         @media(max-width:400px){.start-title{font-size:30px}.go-score{font-size:40px}.guest-box{width:95vw}.confirm-box{width:95vw}}
         @supports(-webkit-touch-callout:none){.mc{flex-shrink:0!important;min-height:40px!important}.mc .bd{font-size:13px!important;line-height:1.7!important;min-height:20px!important}.ml{min-height:80px}.mc .mdel{display:flex!important}}
     </style>
 </head>
 <body>
-
-<div id="start">
-    <div class="start-title">بيانو تايلز</div>
-    <div class="start-sub">اضغط المربعات السوداء قبل ما توصل تحت</div>
-    <button class="start-btn" onclick="startGame()">ابدأ</button>
-</div>
-
-<div id="game" style="display:none">
-    <div class="hud">
-        <div class="hud-score" id="sc">0</div>
-        <div class="hud-lives" id="lv"></div>
-        <div class="hud-speed">السرعة <bar><fill id="spf" style="width:8%"></fill></bar></div>
-    </div>
-    <div class="board" id="board">
-        <div class="col" data-c="0"></div>
-        <div class="col" data-c="1"></div>
-        <div class="col" data-c="2"></div>
-        <div class="col" data-c="3"></div>
-        <div class="tap-line"></div>
-    </div>
-</div>
-
-<div id="gameover">
-    <div class="go-label">انتهت اللعبة</div>
-    <div class="go-score" id="gos">0</div>
-    <div class="go-best" id="gob"></div>
-    <input class="go-input" id="gon" type="text" placeholder="اسمك للوحة المتصدرين" maxlength="30" autocomplete="off">
-    <button class="go-btn" onclick="submitName()">حفظ النتيجة</button>
-    <button class="go-retry" onclick="retry()">محاولة أخرى</button>
-    <button class="go-guest-btn" onclick="openGuestModal()"><i class="fas fa-link" style="margin-left:4px"></i> دخول كضيف</button>
-    <div class="lb" id="lb"></div>
-    <div class="go-ver" id="ver">v4.0.0</div>
-</div>
-
-<div class="guest-modal" id="guest-modal">
-    <div class="guest-box">
-        <h3><i class="fas fa-user-friends" style="margin-left:4px"></i> دخول كضيف</h3>
-        <p>أدخل الرمز اللي أعطاك ياها المضيف</p>
-        <input class="gi" id="g-room" type="text" placeholder="رمز الغرفة (مثل R3ABC)" maxlength="10" autocomplete="off" spellcheck="false">
-        <input class="gi" id="g-code" type="text" placeholder="رمز الضيف (5 أحرف)" maxlength="8" autocomplete="off" spellcheck="false">
-        <button class="gb" id="g-connect" onclick="guestConnect()"><i class="fas fa-plug" style="margin-left:4px"></i> دخول</button>
-        <button class="gb-cancel" onclick="closeGuestModal()">إلغاء</button>
-        <div class="g-status" id="g-status"></div>
-        <div class="g-tips"><i class="fas fa-lightbulb" style="color:var(--gold);margin-left:2px"></i> ممكن تتصل حتى لو المضيف مو فاتح</div>
-    </div>
-</div>
-
-<div class="confirm-modal" id="confirm-modal">
-    <div class="confirm-box">
-        <p id="confirm-text">هل أنت متأكد؟</p>
-        <div class="confirm-btns">
-            <button class="confirm-yes" id="confirm-yes">نعم</button>
-            <button class="confirm-no" onclick="closeConfirm()">إلغاء</button>
-        </div>
-    </div>
-</div>
-
-<div id="msg-ov">
-    <div class="mh">
-        <div class="mh-left">
-            <span id="room-title">الغرفة</span>
-            <span class="mpill" id="mpill">---</span>
-            <span class="net-status ns-off" id="ns"><i class="fas fa-circle"></i> غير متصل</span>
-        </div>
-        <div style="display:flex;gap:3px">
-            <button class="small-btn" onclick="openSync()" title="مزامنة"><i class="fas fa-sync"></i></button>
-            <button class="small-btn" onclick="closeMsg()"><i class="fas fa-arrow-down"></i></button>
-        </div>
-    </div>
-    <div class="room-tabs" id="room-tabs" style="display:none"></div>
-    <div class="room-code-box" id="rc-box" style="display:none">
-        <span><i class="fas fa-key" style="margin-left:3px"></i> رمز الغرفة:</span>
-        <b id="rc-display">---</b>
-        <button onclick="copyRoom()"><i class="fas fa-copy"></i> نسخ</button>
-    </div>
-    <div class="ml" id="ml"><div class="empty-msg">فارغ</div></div>
-    <div class="mia" id="mia">
-        <textarea class="mi" id="minp" placeholder="اكتب..." rows="1" onkeydown="mKey(event)" oninput="mAuto(this)"></textarea>
-        <button class="ms" onclick="sendM()"><i class="fas fa-paper-plane"></i></button>
-    </div>
-    <div class="admin-panel" id="apanel" style="display:none">
-        <h4><i class="fas fa-users-cog" style="margin-left:4px"></i> إدارة الضيوف</h4>
-        <div id="glist"></div>
-        <div class="add-guest">
-            <input id="newg" type="text" placeholder="اسم الضيف" maxlength="15">
-            <button onclick="addGuest()">إنشاء</button>
-        </div>
-        <p style="font-size:9px;color:var(--muted);margin-top:6px">رمز المشاركة = رمز الغرفة + رمز الضيف</p>
-        <button class="clear-msgs-btn" onclick="confirmClearAll()"><i class="fas fa-trash" style="margin-left:3px"></i> مسح كل رسائل الغرفة</button>
-    </div>
-</div>
-
-<div class="mobg" id="sync-mo">
-    <div class="mo">
-        <div style="font-weight:900;font-size:13px;margin-bottom:8px"><i class="fas fa-sync" style="margin-left:4px;color:var(--cyan)"></i> مزامنة</div>
-        <button class="mob" style="margin-bottom:6px" onclick="expD()"><i class="fas fa-upload" style="margin-left:4px"></i> تصدير</button>
-        <textarea class="moin" id="impb" rows="2" placeholder="الصق هنا..." style="font-size:9px;font-family:monospace;margin-top:4px"></textarea>
-        <button class="mob" style="margin-top:6px;background:linear-gradient(135deg,#1a1a2e,#2a2a3e);border:1px solid var(--border)" onclick="impD()"><i class="fas fa-download" style="margin-left:4px"></i> استيراد</button>
-        <div id="sst" style="text-align:center;font-size:10px;margin-top:5px;min-height:10px;color:var(--green)"></div>
-    </div>
-</div>
-
+<div id="start"><div class="start-title">بيانو تايلز</div><div class="start-sub">اضغط المربعات السوداء قبل ما توصل تحت</div><button class="start-btn" onclick="startGame()">ابدأ</button></div>
+<div id="game" style="display:none"><div class="hud"><div class="hud-score" id="sc">0</div><div class="hud-lives" id="lv"></div><div class="hud-speed">السرعة <bar><fill id="spf" style="width:8%"></fill></bar></div></div><div class="board" id="board"><div class="col" data-c="0"></div><div class="col" data-c="1"></div><div class="col" data-c="2"></div><div class="col" data-c="3"></div><div class="tap-line"></div></div></div>
+<div id="gameover"><div class="go-label">انتهت اللعبة</div><div class="go-score" id="gos">0</div><div class="go-best" id="gob"></div><input class="go-input" id="gon" type="text" placeholder="اسمك للوحة المتصدرين" maxlength="30" autocomplete="off"><button class="go-btn" onclick="submitName()">حفظ النتيجة</button><button class="go-retry" onclick="retry()">محاولة أخرى</button><button class="go-guest-btn" onclick="openGuestModal()"><i class="fas fa-link" style="margin-left:4px"></i> دخول كضيف</button><div class="lb" id="lb"></div><div class="go-ver" id="ver">v5.0.0</div></div>
+<div class="guest-modal" id="guest-modal"><div class="guest-box"><h3><i class="fas fa-user-friends" style="margin-left:4px"></i> دخول كضيف</h3><p>الصق رمز المشاركة اللي أعطاك ياها المضيف</p><input class="gi" id="g-code" type="text" placeholder="الصق رمز المشاركة هنا..." autocomplete="off" spellcheck="false"><button class="gb" id="g-connect" onclick="guestConnect()"><i class="fas fa-plug" style="margin-left:4px"></i> دخول</button><button class="gb-cancel" onclick="closeGuestModal()">إلغاء</button><div class="g-status" id="g-status"></div><div class="g-tips"><i class="fas fa-lightbulb" style="color:var(--gold);margin-left:2px"></i> الرمز فيه كل شي - ما تحتاج تسأل المضيف شي ثاني</div></div></div>
+<div class="confirm-modal" id="confirm-modal"><div class="confirm-box"><p id="confirm-text">هل أنت متأكد؟</p><div class="confirm-btns"><button class="confirm-yes" id="confirm-yes">نعم</button><button class="confirm-no" onclick="closeConfirm()">إلغاء</button></div></div></div>
+<div id="msg-ov"><div class="mh"><div class="mh-left"><span id="room-title">الغرفة</span><span class="mpill" id="mpill">---</span><span class="net-status ns-off" id="ns"><i class="fas fa-circle"></i> غير متصل</span></div><div style="display:flex;gap:3px"><button class="small-btn" onclick="openSync()"><i class="fas fa-sync"></i></button><button class="small-btn" onclick="closeMsg()"><i class="fas fa-arrow-down"></i></button></div></div><div class="room-tabs" id="room-tabs" style="display:none"></div><div class="room-code-box" id="rc-box" style="display:none"><span><i class="fas fa-key" style="margin-left:3px"></i> رمز الغرفة:</span><b id="rc-display">---</b><button onclick="copyRoom()"><i class="fas fa-copy"></i> نسخ</button></div><div class="ml" id="ml"><div class="empty-msg">فارغ</div></div><div class="mia" id="mia"><textarea class="mi" id="minp" placeholder="اكتب..." rows="1" onkeydown="mKey(event)" oninput="mAuto(this)"></textarea><button class="ms" onclick="sendM()"><i class="fas fa-paper-plane"></i></button></div><div class="admin-panel" id="apanel" style="display:none"><h4><i class="fas fa-users-cog" style="margin-left:4px"></i> إدارة الضيوف</h4><div id="glist"></div><div class="add-guest"><input id="newg" type="text" placeholder="اسم الضيف" maxlength="15"><button onclick="addGuest()">إنشاء</button></div><p style="font-size:9px;color:var(--muted);margin-top:6px">رمز المشاركة فيه كل شي - انسخه وابعته للضيف</p><button class="clear-msgs-btn" onclick="confirmClearAll()"><i class="fas fa-trash" style="margin-left:3px"></i> مسح كل رسائل الغرفة</button></div></div>
+<div class="mobg" id="sync-mo"><div class="mo"><div style="font-weight:900;font-size:13px;margin-bottom:8px"><i class="fas fa-sync" style="margin-left:4px;color:var(--cyan)"></i> مزامنة</div><button class="mob" style="margin-bottom:6px" onclick="expD()"><i class="fas fa-upload" style="margin-left:4px"></i> تصدير</button><textarea class="moin" id="impb" rows="2" placeholder="الصق هنا..." style="font-size:9px;font-family:monospace;margin-top:4px"></textarea><button class="mob" style="margin-top:6px;background:linear-gradient(135deg,#1a1a2e,#2a2a3e);border:1px solid var(--border)" onclick="impD()"><i class="fas fa-download" style="margin-left:4px"></i> استيراد</button><div id="sst" style="text-align:center;font-size:10px;margin-top:5px;min-height:10px;color:var(--green)"></div></div></div>
 <script>
-const ADMIN_KEY='MUH206582026';
-const SNAP_DURATION=15000;
-const MAX_RENDER=150;
-let showCount=MAX_RENDER;
+const ADMIN_KEY='MUH206582026';const SNAP_DURATION=15000;const MAX_RENDER=150;let showCount=MAX_RENDER;
+
+/* ===== ميلودي حب - "Romance" الإسبانية ===== */
+const MELODY=[
+    329.63,349.23,329.63,293.66,261.63,293.66,329.63,329.63,
+    349.23,392,349.23,329.63,293.66,261.63,293.66,329.63,
+    293.66,261.63,246.94,261.63,
+    392,440,392,349.23,329.63,349.23,392,392,
+    440,493.88,440,392,349.23,329.63,349.23,392,
+    349.23,329.63,293.66,329.63,
+    523.25,493.88,440,392,440,493.88,523.25,523.25,
+    493.88,440,392,349.23,392,440,493.88,440,
+    392,349.23,329.63,349.23,
+    329.63,349.23,329.63,293.66,261.63,293.66,329.63,261.63
+];
+let melodyIdx=0;
 
 function dRoom(k){let h=0;for(let i=0;i<k.length;i++){h=((h<<5)-h+k.charCodeAt(i))|0}return'R'+Math.abs(h).toString(36).toUpperCase().padStart(5,'0').substring(0,5)}
 const DEFAULT_ROOM=dRoom(ADMIN_KEY);
-let activeRoom=DEFAULT_ROOM;
-let activeRoomName='الرئيسية';
-let adminRooms=[];
-let gunListenerActive=false;
-
+let activeRoom=DEFAULT_ROOM;let activeRoomName='الرئيسية';let adminRooms=[];let gunListenerActive=false;
 const gun=Gun({peers:['https://gun-manhattan.herokuapp.com/gun','https://gun-us.herokuapp.com/gun']});
-
-const G={score:0,lives:3,ML:3,combo:0,speed:2,bs:2,running:false,rows:[],nid:0,best:0,raf:null,lt:0};
-const RH=95;
+const G={score:0,lives:3,ML:3,combo:0,speed:2,bs:2,running:false,rows:[],nid:0,best:0,raf:null,lt:0};const RH=95;
 const M={mode:null,name:'',msgs:[],stimers:[],viewed:new Set(),guests:{},gunReady:false,roomNode:null};
 
 function enc(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)))}
 function dec(e,k){try{const t=decodeURIComponent(escape(atob(e)));let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return r}catch(x){return null}}
 
+/* ===== رمز المشاركة الذاتي ===== */
+function makeShareCode(roomCode,guestCode,guestName){
+    const payload=JSON.stringify({c:guestCode,n:guestName});
+    return roomCode+'-'+enc(payload,roomCode+guestCode);
+}
+function readShareCode(fullCode){
+    try{
+        const idx=fullCode.indexOf('-');
+        if(idx<4)return null;
+        const roomCode=fullCode.substring(0,idx);
+        const encrypted=fullCode.substring(idx+1);
+        /* نجرب نفك بكل رموز الضيوف المحتملة (5 أحرف) - فعلياً نجرب الطريقة الأسهل:
+           نفك باستخدام roomCode فقط كمفتاح اولي */
+        /* بس أحسن طريقة: الرمز فيه JSON مشفر */
+        /* نحاول نفك مباشرة - المفتاح هو roomCode+guestCode بس ما نعرف guestCode قبل الفك */
+        /* حل: نخزن الـ guest code كجزء من الـ payload نفسه */
+        const decoded=dec(encrypted,roomCode+'     ');/* placeholder */
+        if(decoded){try{const d=JSON.parse(decoded);if(d.c&&d.n)return{roomCode,code:d.c,name:d.n}}catch(e){}}
+        /* طريقة ثانية: نجرب بدون مفتاح */
+        return null;
+    }catch(e){return null}
+}
+
+/* حل أبسط:رمز المشاركة = roomCode-base64(JSON({c,n})) بدون تشفير معقد */
+function makeShare(roomCode,guestCode,guestName){
+    const json=JSON.stringify({c:guestCode,n:guestName,r:roomCode});
+    const bytes=unescape(encodeURIComponent(json));
+    let bin='';for(let i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes.charCodeAt(i)^42);
+    return btoa(bin);
+}
+function readShare(code){
+    try{
+        const bin=atob(code);
+        let bytes='';for(let i=0;i<bin.length;i++)bytes+=String.fromCharCode(bin.charCodeAt(i)^42);
+        const json=decodeURIComponent(escape(bytes));
+        const d=JSON.parse(json);
+        if(d.r&&d.c&&d.n)return{roomCode:d.r,code:d.c,name:d.n};
+        return null;
+    }catch(e){return null}
+}
+
 let ac=null;
-function gn(f){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(f,ac.currentTime);g.gain.setValueAtTime(.07,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.22);o.start(ac.currentTime);o.stop(ac.currentTime+.22)}catch(e){}}
-const NF=[261.63,329.63,392,523.25];
+/* صوت بيانو رومانسي مع هارمونيك */
+function gn(f){
+    try{
+        if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();
+        const t=ac.currentTime;
+        const o1=ac.createOscillator(),g1=ac.createGain();
+        o1.type='triangle';o1.frequency.setValueAtTime(f,t);
+        g1.gain.setValueAtTime(.1,t);g1.gain.exponentialRampToValueAtTime(.001,t+1.2);
+        o1.connect(g1);g1.connect(ac.destination);o1.start(t);o1.stop(t+1.2);
+        const o2=ac.createOscillator(),g2=ac.createGain();
+        o2.type='sine';o2.frequency.setValueAtTime(f*2,t);
+        g2.gain.setValueAtTime(.025,t);g2.gain.exponentialRampToValueAtTime(.001,t+.5);
+        o2.connect(g2);g2.connect(ac.destination);o2.start(t);o2.stop(t+.5);
+        const o3=ac.createOscillator(),g3=ac.createGain();
+        o3.type='sine';o3.frequency.setValueAtTime(f*.5,t);
+        g3.gain.setValueAtTime(.015,t);g3.gain.exponentialRampToValueAtTime(.001,t+.7);
+        o3.connect(g3);g3.connect(ac.destination);o3.start(t);o3.stop(t+.7);
+    }catch(e){}}
 function errSnd(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='square';o.frequency.setValueAtTime(140,ac.currentTime);g.gain.setValueAtTime(.03,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.12);o.start(ac.currentTime);o.stop(ac.currentTime+.12)}catch(e){}}
 
 function showToast(msg,color){const t=document.createElement('div');t.className='toast';t.textContent=msg;if(color)t.style.color=color;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},2500)}
-
 function showNetStatus(type,text){const el=document.getElementById('ns');if(!el)return;el.className='net-status';if(type==='offline')el.classList.add('ns-off');else if(type==='wait')el.classList.add('ns-wait');else if(type==='online')el.classList.add('ns-on');else if(type==='error')el.classList.add('ns-err');else el.classList.add('ns-off');el.innerHTML=`<i class="fas fa-circle"></i> ${text}`}
 
-/* ===== تأكيد ===== */
 let confirmCb=null;
 function showConfirm(text,cb){confirmCb=cb;document.getElementById('confirm-text').textContent=text;document.getElementById('confirm-modal').classList.add('on')}
 function closeConfirm(){document.getElementById('confirm-modal').classList.remove('on');confirmCb=null}
 document.getElementById('confirm-yes').addEventListener('click',()=>{if(confirmCb)confirmCb();closeConfirm()});
 document.getElementById('confirm-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeConfirm()});
 
-/* ===== إدارة الغرف ===== */
-function loadAdminRooms(){try{adminRooms=JSON.parse(localStorage.getItem('pt_rooms'))||[]}catch(e){adminRooms=[]}
-if(!adminRooms.find(r=>r.code===DEFAULT_ROOM)){adminRooms.unshift({code:DEFAULT_ROOM,name:'الرئيسية',created:Date.now(),isDefault:true});saveAdminRooms()}}
+function loadAdminRooms(){try{adminRooms=JSON.parse(localStorage.getItem('pt_rooms'))||[]}catch(e){adminRooms=[]}if(!adminRooms.find(r=>r.code===DEFAULT_ROOM)){adminRooms.unshift({code:DEFAULT_ROOM,name:'الرئيسية',created:Date.now(),isDefault:true});saveAdminRooms()}}
 function saveAdminRooms(){localStorage.setItem('pt_rooms',JSON.stringify(adminRooms))}
-
 function genRoomCode(){const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let r='R';for(let i=0;i<5;i++)r+=ch[Math.floor(Math.random()*ch.length)];return r}
+function createRoom(name){if(!name.trim())return;let code;do{code=genRoomCode()}while(adminRooms.find(r=>r.code===code));adminRooms.push({code,name:name.trim(),created:Date.now(),isDefault:false});saveAdminRooms();switchRoom(code);showToast('تم إنشاء غرفة "'+name.trim()+'"','var(--green)');gn(523)}
+function deleteRoom(code){const room=adminRooms.find(r=>r.code===code);if(!room||room.isDefault)return;showConfirm('حذف غرفة "'+room.name+'"؟ كل الرسائل رح تنحذف.',()=>{const node=gun.get('pt-room-'+code);node.get('msgs').map().once((d,k)=>{if(d)node.get('msgs').get(k).put(null)});node.get('guests').map().once((d,k)=>{if(d)node.get('guests').get(k).put(null)});adminRooms=adminRooms.filter(r=>r.code!==code);saveAdminRooms();if(activeRoom===code)switchRoom(DEFAULT_ROOM);else renderRoomTabs();showToast('تم حذف الغرفة','var(--red)')})}
+function switchRoom(code){const room=adminRooms.find(r=>r.code===code);if(!room)return;activeRoom=code;activeRoomName=room.name;showCount=MAX_RENDER;M.msgs=[];M.stimers.forEach(t=>clearInterval(t));M.stimers=[];M.roomNode=gun.get('pt-room-'+activeRoom);gunListenerActive=false;loadMsgsForRoom();loadGunMsgs();listenGunMsgs();renderRoomTabs();renderMsgs();document.getElementById('rc-display').textContent=activeRoom;document.getElementById('room-title').textContent=activeRoomName;loadGuestsForRoom();renderGuests()}
+function renderRoomTabs(){const el=document.getElementById('room-tabs');if(!el)return;let h='';adminRooms.forEach(r=>{const act=r.code===activeRoom?'active':'';const del=r.isDefault?'':`<span class="rtab-del" onclick="event.stopPropagation();deleteRoom('${r.code}')"><i class="fas fa-times"></i></span>`;h+=`<button class="rtab ${act}" onclick="switchRoom('${r.code}')">${del}${esc(r.name)}</button>`});h+=`<button class="rtab-add" onclick="promptNewRoom()"><i class="fas fa-plus"></i></button>`;el.innerHTML=h}
+function promptNewRoom(){const tabs=document.getElementById('room-tabs');if(document.getElementById('new-room-inp')){document.getElementById('new-room-inp').focus();return}const inp=document.createElement('input');inp.id='new-room-inp';inp.style.cssText='flex-shrink:0;width:90px;background:rgba(255,255,255,.03);border:1px solid var(--cyan);border-radius:6px;padding:4px 8px;color:var(--txt);font-family:Tajawal,sans-serif;font-size:10px;outline:none;text-align:center';inp.placeholder='اسم الغرفة';inp.maxLength=15;inp.onkeydown=e=>{if(e.key==='Enter'){const v=inp.value.trim();if(v){createRoom(v);inp.remove()}}if(e.key==='Escape')inp.remove()};inp.onblur=()=>{const v=inp.value.trim();if(v)createRoom(v);setTimeout(()=>{if(document.getElementById('new-room-inp'))inp.remove()},100)};const addBtn=tabs.querySelector('.rtab-add');tabs.insertBefore(inp,addBtn);inp.focus()}
 
-function createRoom(name){
-    if(!name.trim())return;
-    let code;do{code=genRoomCode()}while(adminRooms.find(r=>r.code===code));
-    const room={code,name:name.trim(),created:Date.now(),isDefault:false};
-    adminRooms.push(room);saveAdminRooms();
-    switchRoom(code);
-    showToast('تم إنشاء غرفة "'+name.trim()+'"','var(--green)');
-    gn(523);
-}
-
-function deleteRoom(code){
-    const room=adminRooms.find(r=>r.code===code);
-    if(!room||room.isDefault)return;
-    showConfirm('حذف غرفة "'+room.name+'"؟ كل الرسائل والضيوف بهاي الغرفة رح تنحذف.',()=>{
-        /* حذف من Gun */
-        const node=gun.get('pt-room-'+code);
-        node.get('msgs').map().once((d,k)=>{if(d)node.get('msgs').get(k).put(null)});
-        node.get('guests').map().once((d,k)=>{if(d)node.get('guests').get(k).put(null)});
-        /* حذف من القائمة */
-        adminRooms=adminRooms.filter(r=>r.code!==code);saveAdminRooms();
-        /* لو محذوفة هي الفعالة، ارجع للرئيسية */
-        if(activeRoom===code)switchRoom(DEFAULT_ROOM);
-        else renderRoomTabs();
-        showToast('تم حذف الغرفة','var(--red)');
-    });
-}
-
-function switchRoom(code){
-    const room=adminRooms.find(r=>r.code===code);if(!room)return;
-    activeRoom=code;activeRoomName=room.name;
-    showCount=MAX_RENDER;
-    /* إعادة تحميل الرسائل */
-    M.msgs=[];M.stimers.forEach(t=>clearInterval(t));M.stimers=[];
-    M.roomNode=gun.get('pt-room-'+activeRoom);
-    gunListenerActive=false;
-    loadMsgsForRoom();
-    loadGunMsgs();
-    listenGunMsgs();
-    renderRoomTabs();
-    renderMsgs();
-    /* تحديث رمز الغرفة */
-    document.getElementById('rc-display').textContent=activeRoom;
-    document.getElementById('room-title').textContent=activeRoomName;
-    /* تحديث الضيوف */
-    loadGuestsForRoom();renderGuests();
-}
-
-function renderRoomTabs(){
-    const el=document.getElementById('room-tabs');if(!el)return;
-    let h='';
-    adminRooms.forEach(r=>{
-        const act=r.code===activeRoom?'active':'';
-        const del=r.isDefault?'':`<span class="rtab-del" onclick="event.stopPropagation();deleteRoom('${r.code}')"><i class="fas fa-times"></i></span>`;
-        h+=`<button class="rtab ${act}" onclick="switchRoom('${r.code}')">${del}${esc(r.name)}</button>`;
-    });
-    h+=`<button class="rtab-add" onclick="promptNewRoom()"><i class="fas fa-plus"></i></button>`;
-    el.innerHTML=h;
-}
-
-let newRoomInput=null;
-function promptNewRoom(){
-    /* إضافة حقل إدخال مباشر بالتبويبات */
-    const tabs=document.getElementById('room-tabs');
-    /* لو موجود مسبقاً */
-    if(document.getElementById('new-room-inp')){document.getElementById('new-room-inp').focus();return}
-    const inp=document.createElement('input');
-    inp.id='new-room-inp';
-    inp.style.cssText='flex-shrink:0;width:90px;background:rgba(255,255,255,.03);border:1px solid var(--cyan);border-radius:6px;padding:4px 8px;color:var(--txt);font-family:Tajawal,sans-serif;font-size:10px;outline:none;text-align:center';
-    inp.placeholder='اسم الغرفة';inp.maxLength=15;
-    inp.onkeydown=e=>{if(e.key==='Enter'){const v=inp.value.trim();if(v){createRoom(v);inp.remove()}}if(e.key==='Escape')inp.remove()};
-    inp.onblur=()=>{const v=inp.value.trim();if(v)createRoom(v);setTimeout(()=>{if(document.getElementById('new-room-inp'))inp.remove()},100)};
-    /* إدخال قبل زر + */
-    const addBtn=tabs.querySelector('.rtab-add');
-    tabs.insertBefore(inp,addBtn);
-    inp.focus();
-}
-
-/* ===== اللعبة ===== */
 const bEl=document.getElementById('board');
-function startGame(){document.getElementById('start').classList.add('off');document.getElementById('game').style.display='flex';document.getElementById('gameover').classList.remove('on');G.score=0;G.lives=G.ML;G.combo=0;G.speed=G.bs;G.running=true;G.rows=[];bEl.querySelectorAll('.row').forEach(r=>r.remove());updHUD();const bH=bEl.offsetHeight;const cnt=Math.ceil(bH/RH)+2;for(let i=0;i<cnt;i++)spawnR(-RH*(cnt-i-1));G.lt=performance.now();if(G.raf)cancelAnimationFrame(G.raf);G.raf=requestAnimationFrame(loop)}
+function startGame(){document.getElementById('start').classList.add('off');document.getElementById('game').style.display='flex';document.getElementById('gameover').classList.remove('on');G.score=0;G.lives=G.ML;G.combo=0;G.speed=G.bs;G.running=true;G.rows=[];bEl.querySelectorAll('.row').forEach(r=>r.remove());updHUD();const bH=bEl.offsetHeight;const cnt=Math.ceil(bH/RH)+2;for(let i=0;i<cnt;i++)spawnR(-RH*(cnt-i-1));G.lt=performance.now();if(G.raf)cancelAnimationFrame(G.raf);G.raf=requestAnimationFrame(loop);melodyIdx=0}
 function spawnR(y){const bc=Math.floor(Math.random()*4);const row={id:G.nid++,y,blackCol:bc,tapped:false,missed:false,el:null};const el=document.createElement('div');el.className='row';el.style.height=RH+'px';el.style.top=row.y+'px';for(let c=0;c<4;c++){const cell=document.createElement('div');cell.className='cell'+(c===bc?' black':'');cell.dataset.col=c;cell.dataset.rid=row.id;el.appendChild(cell)}bEl.appendChild(el);row.el=el;G.rows.push(row)}
 function loop(t){if(!G.running)return;const dt=Math.min(t-G.lt,50);G.lt=t;const bH=bEl.offsetHeight;const mv=G.speed*dt*.12;for(const r of G.rows){r.y+=mv;r.el.style.top=r.y+'px';if(!r.tapped&&!r.missed&&r.y>bH+8){r.missed=true;G.lives--;G.combo=0;errSnd();sFlash('rgba(255,45,85,.1)');const c=r.el.children[r.blackCol];if(c)c.classList.add('flash-miss');updHUD();if(G.lives<=0){gOver();return}}}G.rows=G.rows.filter(r=>{if(r.y>bH+RH+40){r.el.remove();return false}return true});const top=G.rows.reduce((m,r)=>r.y<m.y?r:m,{y:Infinity});if(top.y>0)spawnR(top.y-RH);G.speed=G.bs+G.score*.028;document.getElementById('spf').style.width=Math.max(4,Math.min(100,((G.speed-G.bs)/7)*100))+'%';G.raf=requestAnimationFrame(loop)}
-bEl.addEventListener('pointerdown',e=>{if(!G.running)return;const cell=e.target.closest('.cell.black');if(!cell){const wc=e.target.closest('.cell:not(.black)');if(wc){const rEl=wc.closest('.row');if(!rEl)return;const rid=parseInt(wc.dataset.rid);const rw=G.rows.find(r=>r.id===rid);if(!rw||rw.tapped)return;G.lives--;G.combo=0;errSnd();sFlash('rgba(255,45,85,.12)');wc.classList.add('flash-miss');setTimeout(()=>wc.classList.remove('flash-miss'),180);updHUD();if(G.lives<=0)gOver()}return}const rid=parseInt(cell.dataset.rid);const rw=G.rows.find(r=>r.id===rid);if(!rw||rw.tapped)return;const cc=parseInt(cell.dataset.col);if(cc!==rw.blackCol)return;rw.tapped=true;cell.classList.add('tapped','flash-hit');setTimeout(()=>cell.classList.remove('flash-hit'),80);G.score++;G.combo++;gn(NF[cc]);const rc=cell.getBoundingClientRect();fPt(rc.left+rc.width/2,rc.top,'+1',G.combo>3?'var(--gold)':'var(--cyan)');if(G.combo>2&&G.combo%5===0)sCombo(G.combo);updHUD()});
+bEl.addEventListener('pointerdown',e=>{if(!G.running)return;const cell=e.target.closest('.cell.black');if(!cell){const wc=e.target.closest('.cell:not(.black)');if(wc){const rEl=wc.closest('.row');if(!rEl)return;const rid=parseInt(wc.dataset.rid);const rw=G.rows.find(r=>r.id===rid);if(!rw||rw.tapped)return;G.lives--;G.combo=0;errSnd();sFlash('rgba(255,45,85,.12)');wc.classList.add('flash-miss');setTimeout(()=>wc.classList.remove('flash-miss'),180);updHUD();if(G.lives<=0)gOver()}return}const rid=parseInt(cell.dataset.rid);const rw=G.rows.find(r=>r.id===rid);if(!rw||rw.tapped)return;const cc=parseInt(cell.dataset.col);if(cc!==rw.blackCol)return;rw.tapped=true;cell.classList.add('tapped','flash-hit');setTimeout(()=>cell.classList.remove('flash-hit'),80);G.score++;G.combo++;gn(MELODY[melodyIdx%MELODY.length]);melodyIdx++;const rc=cell.getBoundingClientRect();fPt(rc.left+rc.width/2,rc.top,'+1',G.combo>3?'var(--gold)':'var(--cyan)');if(G.combo>2&&G.combo%5===0)sCombo(G.combo);updHUD()});
 function updHUD(){document.getElementById('sc').textContent=G.score;let h='';for(let i=0;i<G.ML;i++)h+=`<i class="fas fa-heart ${i>=G.lives?'lost':''}" style="color:${i>=G.lives?'var(--muted)':'var(--red)'}"></i>`;document.getElementById('lv').innerHTML=h}
 function fPt(x,y,t,c){const e=document.createElement('div');e.className='float-score';e.textContent=t;e.style.left=x+'px';e.style.top=y+'px';e.style.color=c;document.body.appendChild(e);setTimeout(()=>e.remove(),650)}
-function sCombo(n){const e=document.createElement('div');e.className='combo-pop';e.textContent='x'+n;e.style.color='var(--gold)';document.body.appendChild(e);setTimeout(()=>e.remove(),450)}
+function sCombo(n){const e=document.createElement('div');e.className='combo-pop';e.textContent='x'+n;e.style.color='var(--gold)');document.body.appendChild(e);setTimeout(()=>e.remove(),450)}
 function sFlash(c){const e=document.createElement('div');e.className='screen-flash';e.style.background=c;document.body.appendChild(e);setTimeout(()=>e.remove(),250)}
 function gOver(){G.running=false;if(G.raf)cancelAnimationFrame(G.raf);if(G.score>G.best){G.best=G.score;localStorage.setItem('pt_b',G.best)}document.getElementById('gos').textContent=G.score;document.getElementById('gob').textContent='أفضل: '+G.best;document.getElementById('gon').value='';rLB();document.getElementById('gameover').classList.add('on');setTimeout(()=>document.getElementById('gon').focus(),350)}
 function retry(){document.getElementById('gameover').classList.remove('on');startGame()}
-
 function gLB(){try{return JSON.parse(localStorage.getItem('pt_lb'))||[]}catch(e){return[]}}
 function sLB(l){localStorage.setItem('pt_lb',JSON.stringify(l))}
 function rLB(){const lb=gLB();const el=document.getElementById('lb');if(!lb.length){el.innerHTML='';return}el.innerHTML=lb.sort((a,b)=>b.s-a.s).slice(0,8).map((e,i)=>`<div class="lb-row"><span class="n">${i+1}. ${esc(e.n)}</span><span class="s">${e.s}</span></div>`).join('')}
-
 function submitName(){const v=document.getElementById('gon').value.trim();if(!v)return;if(v===ADMIN_KEY){M.mode='admin';M.name='أدمن';document.getElementById('gameover').classList.remove('on');openMsg();return}const lb=gLB();lb.push({n:v,s:G.score});sLB(lb);rLB();document.getElementById('gon').value='';document.getElementById('gob').textContent='تم الحفظ! أفضل: '+G.best}
 
-/* ===== إدارة الضيوف (لكل غرفة) ===== */
 function loadGuestsForRoom(){try{M.guests=JSON.parse(localStorage.getItem('pt_g_'+activeRoom))||{}}catch(e){M.guests={}}}
 function saveGuestsForRoom(){localStorage.setItem('pt_g_'+activeRoom,JSON.stringify(M.guests))}
 function genCode(){const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let r='';for(let i=0;i<5;i++)r+=ch[Math.floor(Math.random()*ch.length)];return r}
-function addGuest(){const name=document.getElementById('newg').value.trim();if(!name)return;loadGuestsForRoom();let code;do{code=genCode()}while(M.guests[code]);M.guests[code]={name,created:Date.now()};saveGuestsForRoom();renderGuests();document.getElementById('newg').value='';if(M.roomNode){M.roomNode.get('guests').get(code).put({name:name,created:Date.now()})}const shareCode=activeRoom+'-'+code;const list=document.getElementById('ml');const note=document.createElement('div');note.className='mc sys';note.innerHTML=`<i class="fas fa-key" style="margin-left:3px"></i> رمز المشاركة لـ ${esc(name)}: <b style="font-family:monospace;letter-spacing:1px;color:var(--purple)">${shareCode}</b>`;list.appendChild(note);list.scrollTop=list.scrollHeight}
+function addGuest(){const name=document.getElementById('newg').value.trim();if(!name)return;loadGuestsForRoom();let code;do{code=genCode()}while(M.guests[code]);M.guests[code]={name,created:Date.now()};saveGuestsForRoom();renderGuests();document.getElementById('newg').value='';if(M.roomNode){M.roomNode.get('guests').get(code).put({name:name,created:Date.now()})}const shareCode=makeShare(activeRoom,code,name);const list=document.getElementById('ml');const note=document.createElement('div');note.className='mc sys';note.innerHTML=`<i class="fas fa-key" style="margin-left:3px"></i> رمز المشاركة لـ ${esc(name)}: <b style="font-family:monospace;letter-spacing:0;color:var(--purple);font-size:9px;word-break:break-all">${esc(shareCode)}</b>`;list.appendChild(note);list.scrollTop=list.scrollHeight}
 function removeGuest(code){loadGuestsForRoom();delete M.guests[code];saveGuestsForRoom();renderGuests();if(M.roomNode){M.roomNode.get('guests').get(code).put(null)}}
-function renderGuests(){loadGuestsForRoom();const el=document.getElementById('glist');const keys=Object.keys(M.guests);if(!keys.length){el.innerHTML='<div style="font-size:10px;color:var(--muted)">لا يوجد ضيوف بعد</div>';return}el.innerHTML=keys.map(k=>{const shareCode=activeRoom+'-'+k;return`<div class="guest-row"><span>${esc(M.guests[k].name)}</span><span class="share-code">${shareCode}</span><div style="display:flex;gap:3px"><button onclick="copyShare('${shareCode}')"><i class="fas fa-copy"></i></button><button onclick="removeGuest('${k}')"><i class="fas fa-times"></i></button></div></div>`}).join('')}
+function renderGuests(){loadGuestsForRoom();const el=document.getElementById('glist');const keys=Object.keys(M.guests);if(!keys.length){el.innerHTML='<div style="font-size:10px;color:var(--muted)">لا يوجد ضيوف بعد</div>';return}el.innerHTML=keys.map(k=>{const sc=makeShare(activeRoom,k,M.guests[k].name);return`<div class="guest-row"><span>${esc(M.guests[k].name)}</span><span class="share-code">${esc(sc)}</span><div style="display:flex;gap:3px"><button onclick="copyShare('${esc(sc)}')"><i class="fas fa-copy"></i></button><button onclick="removeGuest('${k}')"><i class="fas fa-times"></i></button></div></div>`}).join('')}
 function copyShare(code){navigator.clipboard.writeText(code).then(()=>showToast('تم نسخ رمز المشاركة','var(--green)')).catch(()=>{fCp(code);showToast('تم النسخ!','var(--green)')})}
 function copyRoom(){navigator.clipboard.writeText(activeRoom).then(()=>showToast('تم نسخ رمز الغرفة','var(--green)')).catch(()=>{fCp(activeRoom);showToast('تم النسخ!','var(--green)')})}
 function fCp(t){const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;left:-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)}
 
 /* ===== مودال الضيف ===== */
-function openGuestModal(){document.getElementById('guest-modal').classList.add('on');document.getElementById('g-room').value='';document.getElementById('g-code').value='';document.getElementById('g-status').innerHTML='';document.getElementById('g-connect').disabled=false;setTimeout(()=>document.getElementById('g-room').focus(),300)}
+function openGuestModal(){document.getElementById('guest-modal').classList.add('on');document.getElementById('g-code').value='';document.getElementById('g-status').innerHTML='';document.getElementById('g-connect').disabled=false;setTimeout(()=>document.getElementById('g-code').focus(),300)}
 function closeGuestModal(){document.getElementById('guest-modal').classList.remove('on')}
-function guestConnect(){const roomCode=document.getElementById('g-room').value.trim().toUpperCase();const guestCode=document.getElementById('g-code').value.trim().toUpperCase();const stEl=document.getElementById('g-status');const btn=document.getElementById('g-connect');if(!roomCode){stEl.innerHTML='<span style="color:var(--red)">أدخل رمز الغرفة</span>';return}if(!guestCode){stEl.innerHTML='<span style="color:var(--red)">أدخل رمز الضيف</span>';return}if(!roomCode.startsWith('R')||roomCode.length<4){stEl.innerHTML='<span style="color:var(--red)">رمز الغرفة يبدأ بحرف R</span>';return}btn.disabled=true;stEl.innerHTML='<span style="color:var(--gold)"><i class="fas fa-spinner fa-spin"></i> جاري الاتصال...</span>';const roomNode=gun.get('pt-room-'+roomCode);roomNode.get('guests').get(guestCode).once(data=>{if(data&&data.name){M.mode='guest';M.name=data.name;M.roomNode=roomNode;M.gunReady=true;activeRoom=roomCode;activeRoomName='غرفة الضيف';closeGuestModal();document.getElementById('gameover').classList.remove('on');openMsg();showNetStatus('online','متصل بالغرفة');showToast('تم الاتصال! مرحباً '+data.name,'var(--green)');gn(523);loadGunMsgs();listenGunMsgs()}else{btn.disabled=false;stEl.innerHTML='<span style="color:var(--red)">رمز الضيف غير صالح أو الغرفة غير موجودة</span>'}})}
+function guestConnect(){
+    const raw=document.getElementById('g-code').value.trim();
+    const stEl=document.getElementById('g-status');const btn=document.getElementById('g-connect');
+    if(!raw){stEl.innerHTML='<span style="color:var(--red)">الصق رمز المشاركة</span>';return}
+    btn.disabled=true;stEl.innerHTML='<span style="color:var(--gold)"><i class="fas fa-spinner fa-spin"></i> جاري القراءة...</span>';
 
-/* ===== Gun.js ===== */
+    const data=readShare(raw);
+    if(!data){btn.disabled=false;stEl.innerHTML='<span style="color:var(--red)">رمز غير صالح - تأكد إنك نسخته كامل</span>';return}
+
+    const{roomCode,code:guestCode,name:guestName}=data;
+    M.mode='guest';M.name=guestName;
+    activeRoom=roomCode;activeRoomName='غرفة الضيف';
+    M.roomNode=gun.get('pt-room-'+roomCode);M.gunReady=true;
+
+    closeGuestModal();document.getElementById('gameover').classList.remove('on');openMsg();
+    showNetStatus('online','متصل - '+guestName);showToast('مرحباً '+guestName+'!','var(--green)');gn(523);
+    loadGunMsgs();listenGunMsgs();
+}
+
 function initGunRoom(){M.roomNode=gun.get('pt-room-'+activeRoom);M.gunReady=true;showNetStatus('online','الغرفة جاهزة');showToast('الغرفة جاهزة','var(--green)');loadGuestsForRoom();Object.keys(M.guests).forEach(code=>{M.roomNode.get('guests').get(code).put({name:M.guests[code].name,created:M.guests[code].created||Date.now()})});loadGunMsgs();listenGunMsgs()}
-
 function loadGunMsgs(){if(!M.roomNode)return;M.roomNode.get('msgs').map().once(data=>{if(!data||!data.id)return;if(data.text===null||data.text===undefined)return;let text=data.text;if(data.enc){const decoded=dec(data.text,ADMIN_KEY);if(decoded)text=decoded}if(!M.msgs.find(m=>m.id===data.id)){M.msgs.push({id:data.id,who:data.who||'?',text:text,ts:data.ts||0,admin:!!data.admin,system:!!data.system})}});setTimeout(()=>{M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgsForRoom();if(document.getElementById('msg-ov').classList.contains('on'))renderMsgs()},1500)}
+function listenGunMsgs(){if(!M.roomNode||gunListenerActive)return;gunListenerActive=true;M.roomNode.get('msgs').map().on(data=>{if(!data||data.id===undefined)return;if(data.text===null||data.text===undefined){const idx=M.msgs.findIndex(m=>m.id===data.id||m.id===data);if(idx>-1){M.msgs.splice(idx,1);saveMsgsForRoom();if(document.getElementById('msg-ov').classList.contains('on'))renderMsgs()}return}let text=data.text;if(data.enc){const decoded=dec(data.text,ADMIN_KEY);if(decoded)text=decoded}if(!M.msgs.find(m=>m.id===data.id)){M.msgs.push({id:data.id,who:data.who||'?',text:text,ts:data.ts||0,admin:!!data.admin,system:!!data.system});M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgsForRoom();if(document.getElementById('msg-ov').classList.contains('on'))renderMsgs();gn(392)}})}
 
-function listenGunMsgs(){if(!M.roomNode||gunListenerActive)return;gunListenerActive=true;M.roomNode.get('msgs').map().on(data=>{if(!data||data.id===undefined)return;if(data.text===null||data.text===undefined){/* رسالة محذوفة */const idx=M.msgs.findIndex(m=>m.id===data.id||m.id===data);if(idx>-1){M.msgs.splice(idx,1);saveMsgsForRoom();if(document.getElementById('msg-ov').classList.contains('on'))renderMsgs()}return}let text=data.text;if(data.enc){const decoded=dec(data.text,ADMIN_KEY);if(decoded)text=decoded}if(!M.msgs.find(m=>m.id===data.id)){M.msgs.push({id:data.id,who:data.who||'?',text:text,ts:data.ts||0,admin:!!data.admin,system:!!data.system});M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgsForRoom();if(document.getElementById('msg-ov').classList.contains('on'))renderMsgs();gn(392)}})}
+function deleteMessage(id){M.msgs=M.msgs.filter(m=>m.id!==id);saveMsgsForRoom();renderMsgs();if(M.roomNode){M.roomNode.get('msgs').get(id).put(null)}}
+function confirmClearAll(){showConfirm('مسح كل رسائل هادي الغرفة؟',()=>{if(M.roomNode){M.msgs.forEach(m=>{M.roomNode.get('msgs').get(m.id).put(null)})}M.msgs=[];M.stimers.forEach(t=>clearInterval(t));M.stimers=[];saveMsgsForRoom();renderMsgs();showToast('تم مسح الرسائل','var(--red)')})}
 
-/* ===== حذف الرسائل ===== */
-function deleteMessage(id){
-    M.msgs=M.msgs.filter(m=>m.id!==id);saveMsgsForRoom();renderMsgs();
-    if(M.roomNode){M.roomNode.get('msgs').get(id).put(null)}
-}
-
-function confirmClearAll(){
-    showConfirm('مسح كل رسائل هادي الغرفة؟ ما في رجعة!',()=>{
-        /* حذف من Gun */
-        if(M.roomNode){M.msgs.forEach(m=>{M.roomNode.get('msgs').get(m.id).put(null)})}
-        M.msgs=[];M.stimers.forEach(t=>clearInterval(t));M.stimers=[];
-        saveMsgsForRoom();renderMsgs();showToast('تم مسح كل الرسائل','var(--red)');
-    });
-}
-
-/* ===== المراسلة ===== */
-function openMsg(){
-    document.getElementById('msg-ov').classList.add('on');showCount=MAX_RENDER;
-    const p=document.getElementById('mpill');
-    if(M.mode==='admin'){
-        p.textContent='أدمن';p.className='mpill mp-a';
-        document.getElementById('rc-box').style.display='flex';
-        document.getElementById('rc-display').textContent=activeRoom;
-        document.getElementById('room-tabs').style.display='flex';
-        document.getElementById('room-title').textContent=activeRoomName;
-        loadAdminRooms();renderRoomTabs();
-    }else{
-        p.textContent='ضيف';p.className='mpill mp-g';
-        document.getElementById('rc-box').style.display='none';
-        document.getElementById('room-tabs').style.display='none';
-        document.getElementById('room-title').textContent='الغرفة';
-    }
-    document.getElementById('mia').style.display='flex';
-    document.getElementById('apanel').style.display=M.mode==='admin'?'block':'none';
-    if(M.mode==='admin')renderGuests();
-    loadMsgsForRoom();renderMsgs();
-    if(M.mode==='admin'&&!M.gunReady){showNetStatus('wait','جاري إنشاء الغرفة...');setTimeout(initGunRoom,500)}
-}
-
+function openMsg(){document.getElementById('msg-ov').classList.add('on');showCount=MAX_RENDER;const p=document.getElementById('mpill');if(M.mode==='admin'){p.textContent='أدمن';p.className='mpill mp-a';document.getElementById('rc-box').style.display='flex';document.getElementById('rc-display').textContent=activeRoom;document.getElementById('room-tabs').style.display='flex';document.getElementById('room-title').textContent=activeRoomName;loadAdminRooms();renderRoomTabs()}else{p.textContent='ضيف';p.className='mpill mp-g';document.getElementById('rc-box').style.display='none';document.getElementById('room-tabs').style.display='none';document.getElementById('room-title').textContent='الغرفة'}document.getElementById('mia').style.display='flex';document.getElementById('apanel').style.display=M.mode==='admin'?'block':'none';if(M.mode==='admin')renderGuests();loadMsgsForRoom();renderMsgs();if(M.mode==='admin'&&!M.gunReady){showNetStatus('wait','جاري إنشاء الغرفة...');setTimeout(initGunRoom,500)}}
 function closeMsg(){document.getElementById('msg-ov').classList.remove('on');if(M.mode==='guest'){M.stimers.forEach(t=>clearInterval(t));M.stimers=[];M.msgs.forEach(m=>M.viewed.add(m.id));localStorage.setItem('pt_v',JSON.stringify([...M.viewed]))}M.mode=null;document.getElementById('gameover').classList.add('on')}
-
 function loadMsgsForRoom(){try{M.msgs=JSON.parse(localStorage.getItem('pt_m_'+activeRoom))||[]}catch(e){M.msgs=[]}try{M.viewed=new Set(JSON.parse(localStorage.getItem('pt_v')))}catch(e){M.viewed=new Set()}}
 function saveMsgsForRoom(){localStorage.setItem('pt_m_'+activeRoom,JSON.stringify(M.msgs))}
-/* دالة متوافقة مع الكود القديم */
-function saveMsgs(){saveMsgsForRoom()}
-
 function addSystemMsg(text){const sysMsg={id:'sys-'+Date.now().toString(36)+Math.random().toString(36).substr(2,3),who:'system',text,ts:Date.now(),admin:true,system:true};M.msgs.push(sysMsg);saveMsgsForRoom();renderMsgs();if(M.roomNode){M.roomNode.get('msgs').get(sysMsg.id).put({id:sysMsg.id,who:'system',text:text,ts:sysMsg.ts,admin:true,system:true,enc:false})}}
-
-function sendM(){const inp=document.getElementById('minp');const t=inp.value.trim();if(!t)return;const msg={id:Date.now().toString(36)+Math.random().toString(36).substr(2,4),who:M.name,text:t,ts:Date.now(),admin:M.mode==='admin'};M.msgs.push(msg);saveMsgsForRoom();inp.value='';inp.style.height='auto';renderMsgs();gn(523);if(M.roomNode){const encText=enc(t,ADMIN_KEY);M.roomNode.get('msgs').get(msg.id).put({id:msg.id,who:msg.who,text:encText,ts:msg.ts,admin:msg.admin,enc:true})}}
-
+function sendM(){const inp=document.getElementById('minp');const t=inp.value.trim();if(!t)return;const msg={id:Date.now().toString(36)+Math.random().toString(36).substr(2,4),who:M.name,text:t,ts:Date.now(),admin:M.mode==='admin'};M.msgs.push(msg);saveMsgsForRoom();inp.value='';inp.style.height='auto';renderMsgs();gn(MELODY[melodyIdx%MELODY.length]);melodyIdx++;if(M.roomNode){const encText=enc(t,ADMIN_KEY);M.roomNode.get('msgs').get(msg.id).put({id:msg.id,who:msg.who,text:encText,ts:msg.ts,admin:msg.admin,enc:true})}}
 function mKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendM()}}
 function mAuto(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,60)+'px'}
-
-function renderMsgs(){
-    const list=document.getElementById('ml');
-    let all=M.msgs.filter(m=>{if(m.system)return true;if(M.mode==='guest'&&!M.viewed.has(m.id))return true;if(M.mode==='admin')return true;return false}).sort((a,b)=>a.ts-b.ts);
-    if(!all.length){list.innerHTML='<div class="empty-msg"><i class="fas fa-comment" style="font-size:18px;display:block;margin-bottom:4px;opacity:.2"></i>فارغ</div>';return}
-    const total=all.length;const hasMore=total>showCount;const visible=hasMore?all.slice(total-showCount):all;const hiddenCount=total-showCount;
-    let h='';
-    if(hasMore)h+=`<button class="load-more-btn" onclick="loadMore()"><i class="fas fa-chevron-up" style="margin-left:3px"></i> عرض ${hiddenCount} رسالة أقدم</button>`;
-    const isAdmin=M.mode==='admin';
-    visible.forEach(m=>{
-        if(m.system){h+=`<div class="mc sys"><i class="fas fa-info-circle" style="margin-left:3px"></i> ${esc(m.text)}</div>`;return}
-        const mine=m.who===M.name;const sc=mine?'mn':'th';
-        const tag=m.admin?'<span style="color:var(--gold);font-size:7px">★</span>':'';
-        const time=new Date(m.ts).toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
-        const ig=M.mode==='guest';
-        const sb=ig?`<div class="sbar"><div class="sfill" id="sf-${m.id}" style="width:100%"></div></div>`:'';
-        const burned=M.mode==='guest'&&M.viewed.has(m.id);
-        const delBtn=isAdmin?`<button class="mdel" onclick="event.stopPropagation();deleteMessage('${m.id}')"><i class="fas fa-times"></i></button>`:'';
-        h+=`<div class="mc ${sc} ${burned?'burned':''}" id="mc-${m.id}">${delBtn}<div class="sn">${tag} ${esc(m.who)}</div><div class="bd">${esc(m.text)}</div><div class="mt">${time}</div>${sb}</div>`;
-    });
-    list.innerHTML=h;requestAnimationFrame(()=>{list.scrollTop=list.scrollHeight});
-    M.stimers.forEach(t=>clearInterval(t));M.stimers=[];
-    if(M.mode==='guest'){visible.filter(m=>!m.system&&!M.viewed.has(m.id)).forEach(m=>startSnap(m.id))}
-}
-
+function renderMsgs(){const list=document.getElementById('ml');let all=M.msgs.filter(m=>{if(m.system)return true;if(M.mode==='guest'&&!M.viewed.has(m.id))return true;if(M.mode==='admin')return true;return false}).sort((a,b)=>a.ts-b.ts);if(!all.length){list.innerHTML='<div class="empty-msg"><i class="fas fa-comment" style="font-size:18px;display:block;margin-bottom:4px;opacity:.2"></i>فارغ</div>';return}const total=all.length;const hasMore=total>showCount;const visible=hasMore?all.slice(total-showCount):all;const hiddenCount=total-showCount;let h='';if(hasMore)h+=`<button class="load-more-btn" onclick="loadMore()"><i class="fas fa-chevron-up" style="margin-left:3px"></i> عرض ${hiddenCount} رسالة أقدم</button>`;const isAdmin=M.mode==='admin';visible.forEach(m=>{if(m.system){h+=`<div class="mc sys"><i class="fas fa-info-circle" style="margin-left:3px"></i> ${esc(m.text)}</div>`;return}const mine=m.who===M.name;const sc=mine?'mn':'th';const tag=m.admin?'<span style="color:var(--gold);font-size:7px">★</span>':'';const time=new Date(m.ts).toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});const ig=M.mode==='guest';const sb=ig?`<div class="sbar"><div class="sfill" id="sf-${m.id}" style="width:100%"></div></div>`:'';const burned=M.mode==='guest'&&M.viewed.has(m.id);const delBtn=isAdmin?`<button class="mdel" onclick="event.stopPropagation();deleteMessage('${m.id}')"><i class="fas fa-times"></i></button>`:'';h+=`<div class="mc ${sc} ${burned?'burned':''}" id="mc-${m.id}">${delBtn}<div class="sn">${tag} ${esc(m.who)}</div><div class="bd">${esc(m.text)}</div><div class="mt">${time}</div>${sb}</div>`});list.innerHTML=h;requestAnimationFrame(()=>{list.scrollTop=list.scrollHeight});M.stimers.forEach(t=>clearInterval(t));M.stimers=[];if(M.mode==='guest'){visible.filter(m=>!m.system&&!M.viewed.has(m.id)).forEach(m=>startSnap(m.id))}}
 function loadMore(){showCount+=100;renderMsgs();const list=document.getElementById('ml');requestAnimationFrame(()=>{list.scrollTop=100})}
-
 function startSnap(id){const el=document.getElementById('sf-'+id);if(!el)return;let rem=100;const dur=SNAP_DURATION;const step=80;const timer=setInterval(()=>{rem-=(step/dur)*100;if(rem<=0){clearInterval(timer);const c=document.getElementById('mc-'+id);if(c)c.classList.add('burned');M.viewed.add(id);localStorage.setItem('pt_v',JSON.stringify([...M.viewed]))}else{el.style.width=rem+'%'}},step);M.stimers.push(timer)}
-
 function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
 
-/* ===== مزامنة ===== */
 function openSync(){document.getElementById('sync-mo').classList.add('on');document.getElementById('sst').textContent='';document.getElementById('impb').value=''}
 function expD(){try{const d=enc(JSON.stringify(M.msgs),ADMIN_KEY);navigator.clipboard.writeText(d).then(()=>{document.getElementById('sst').innerHTML='<span style="color:var(--green)">تم النسخ!</span>'}).catch(()=>{fCp(d);document.getElementById('sst').innerHTML='<span style="color:var(--green)">تم النسخ!</span>'})}catch(e){document.getElementById('sst').innerHTML='<span style="color:var(--red)">خطأ</span>'}}
 function impD(){const r=document.getElementById('impb').value.trim();if(!r){document.getElementById('sst').innerHTML='<span style="color:var(--red)">الصق أولاً</span>';return}try{const d=dec(r,ADMIN_KEY);if(!d)throw 0;const arr=JSON.parse(d);if(!Array.isArray(arr))throw 0;let n=0;arr.forEach(m=>{if(!M.msgs.find(x=>x.id===m.id)){M.msgs.push(m);n++}});M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgsForRoom();renderMsgs();document.getElementById('sst').innerHTML=`<span style="color:var(--green)">تم تحميل ${n}</span>`}catch(e){document.getElementById('sst').innerHTML='<span style="color:var(--red)">بيانات غير صالحة</span>'}}
-
 document.getElementById('sync-mo').addEventListener('click',e=>{if(e.target===e.currentTarget)e.target.classList.remove('on')});
 document.getElementById('guest-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeGuestModal()});
 
 (function(){const b=localStorage.getItem('pt_b');if(b)G.best=parseInt(b)||0})();
-try{const bc=new BroadcastChannel('pt_c');bc.onmessage=e=>{if(e.data&&e.data.m){let n=0;e.data.m.forEach(m=>{if(!M.msgs.find(x=>x.id===m.id)){M.msgs.push(m);n++}});if(n>0){M.msgs.sort((a,b)=>a.ts-b.ts);saveMsgsForRoom();if(document.getElementById('msg-ov').classList.contains('on'))renderMsgs()}}};const _sv=saveMsgsForRoom;saveMsgsForRoom=function(){_sv();try{bc.postMessage({m:M.msgs})}catch(e){}}}catch(e){}
 </script>
 </body>
 </html>
