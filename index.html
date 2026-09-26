@@ -118,7 +118,7 @@
         .gr button:hover{border-color:var(--red);color:var(--red)}
         .ag{display:flex;gap:6px;margin-top:8px}
         .ag input{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--txt);font-family:'Tajawal',sans-serif;font-size:11px;outline:none;text-align:center}
-        .ag button{background:linear-gradient(135deg,#0e7490,#06b6d4);color:#fff;border:0;border-radius:6px;padding:5px 10px;font-size:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700}
+        .ag button{background:linear-gradient(135deg,#0e7490,#06b6d4);color:#fff;border:0;border-radius:6px;padding:5px 10px;font-size:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;white-space:nowrap}
         .clr{background:0;border:1px solid rgba(255,45,85,.2);color:var(--red);border-radius:6px;padding:5px 10px;font-size:9px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;width:100%;margin-top:8px}
         .clr:hover{border-color:var(--red)}
         .emp{text-align:center;padding:24px 14px;color:var(--muted);font-size:11px;flex-shrink:0}
@@ -140,14 +140,16 @@
 <body>
 <div id="start"><div class="start-title">بيانو تايلز</div><div class="start-sub">اضغط المربعات السوداء</div><button class="start-btn" onclick="startGame()">ابدأ</button></div>
 <div id="game" style="display:none"><div class="hud"><div class="hud-score" id="sc">0</div><div class="hud-lives" id="lv"></div><div class="hud-speed">السرعة <bar><fill id="spf" style="width:8%"></fill></bar></div></div><div class="board" id="board"><div class="col" data-c="0"></div><div class="col" data-c="1"></div><div class="col" data-c="2"></div><div class="col" data-c="3"></div><div class="tap-line"></div></div></div>
-<div id="gameover"><div class="go-label">انتهت اللعبة</div><div class="go-score" id="gos">0</div><div class="go-best" id="gob"></div><input class="go-input" id="gon" type="text" placeholder="اسمك للوحة المتصدرين" maxlength="30" autocomplete="off"><button class="go-btn" onclick="submitName()">حفظ النتيجة</button><button class="go-retry" onclick="retry()">محاولة أخرى</button><button class="go-guest-btn" onclick="openGC()"><i class="fas fa-link" style="margin-left:4px"></i> دخول للغرفة</button><div class="lb" id="lb"></div><div class="go-ver">v7.3</div></div>
-<div class="mbg" id="gc-modal"><div class="mbox"><h3><i class="fas fa-user-friends" style="margin-left:4px"></i> دخول للغرفة</h3><p>أدخل كود الغرفة، وكود الضيف (أو كود الأدمن)</p><input class="mI" id="gc-room" type="text" placeholder="كود الغرفة" maxlength="20"><input class="mI" id="gc-code" type="text" placeholder="كود الضيف / كود الأدمن" maxlength="20"><button class="mB" id="gc-go" onclick="doGC()">دخول</button><button class="mX" onclick="closeGC()">إلغاء</button><div class="mSt" id="gc-st"></div></div></div>
+<div id="gameover"><div class="go-label">انتهت اللعبة</div><div class="go-score" id="gos">0</div><div class="go-best" id="gob"></div><input class="go-input" id="gon" type="text" placeholder="اسمك للوحة المتصدرين" maxlength="30" autocomplete="off"><button class="go-btn" onclick="submitName()">حفظ النتيجة</button><button class="go-retry" onclick="retry()">محاولة أخرى</button><button class="go-guest-btn" onclick="openGC()"><i class="fas fa-link" style="margin-left:4px"></i> دخول للغرفة</button><div class="lb" id="lb"></div><div class="go-ver">v7.4</div></div>
+
+<div class="mbg" id="gc-modal"><div class="mbox"><h3><i class="fas fa-user-friends" style="margin-left:4px"></i> دخول ضيف</h3><p>أدخل كود الغرفة وكود الدعوة اللي عطاك ياه الأدمن</p><input class="mI" id="gc-room" type="text" placeholder="كود الغرفة" maxlength="20"><input class="mI" id="gc-code" type="text" placeholder="كود الدعوة الخاص بك" maxlength="20"><button class="mB" id="gc-go" onclick="doGC()">دخول</button><button class="mX" onclick="closeGC()">إلغاء</button><div class="mSt" id="gc-st"></div></div></div>
+
 <div class="cbg" id="cf-bg"><div class="cbox"><p id="cf-txt"></p><div class="cbs"><button class="cby" id="cf-y">نعم</button><button class="cbn" onclick="closeCf()">إلغاء</button></div></div></div>
-<div id="msg-ov"><div class="mh"><div class="mh-l"><span>الغرفة</span><span class="mpill" id="mpill">---</span><span class="ns ns-off" id="ns"><i class="fas fa-circle"></i> ---</span></div><div><button class="sb" onclick="closeMsg()"><i class="fas fa-arrow-down"></i></button></div></div><div class="ml" id="ml"><div class="emp">فارغ</div></div><div class="mia"><textarea class="mi" id="minp" placeholder="اكتب..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,60)+'px'"></textarea><button class="ms" onclick="sendM()"><i class="fas fa-paper-plane"></i></button></div><div class="ap" id="apanel" style="display:none"><h4><i class="fas fa-cog" style="margin-left:4px"></i> إدارة الغرفة</h4><div class="rc-row"><label>كود الغرفة:</label><input class="rc-in" id="rc-in" type="text" maxlength="20" placeholder="مثلا: ROOM1"><button class="rc-sv" onclick="saveRC()">حفظ</button></div><h4 style="margin-top:10px"><i class="fas fa-users" style="margin-left:4px"></i> الضيوف</h4><div id="glist"></div><div class="ag"><input id="gn-in" type="text" placeholder="اسم الضيف" maxlength="15"><input id="gc-in" type="text" placeholder="كود الضيف" maxlength="15" style="direction:ltr"><button onclick="addG()">إضافة</button></div><button class="clr" onclick="confirmClr()"><i class="fas fa-trash" style="margin-left:3px"></i> مسح كل الرسائل</button></div></div>
+
+<div id="msg-ov"><div class="mh"><div class="mh-l"><span>الغرفة</span><span class="mpill" id="mpill">---</span><span class="ns ns-off" id="ns"><i class="fas fa-circle"></i> ---</span></div><div><button class="sb" onclick="closeMsg()"><i class="fas fa-arrow-down"></i></button></div></div><div class="ml" id="ml"><div class="emp">فارغ</div></div><div class="mia"><textarea class="mi" id="minp" placeholder="اكتب..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,60)+'px'"></textarea><button class="ms" onclick="sendM()"><i class="fas fa-paper-plane"></i></button></div><div class="ap" id="apanel" style="display:none"><h4><i class="fas fa-cog" style="margin-left:4px"></i> إدارة الغرفة</h4><div class="rc-row"><label>كود الغرفة:</label><input class="rc-in" id="rc-in" type="text" maxlength="20" placeholder="مثلا: ROOM1"><button class="rc-sv" onclick="saveRC()">حفظ</button></div><h4 style="margin-top:10px"><i class="fas fa-users" style="margin-left:4px"></i> الضيوف</h4><div id="glist"></div><div class="ag"><input id="gn-in" type="text" placeholder="اسم الضيف" maxlength="15"><button onclick="addG()">إضافة وتوليد كود</button></div><button class="clr" onclick="confirmClr()"><i class="fas fa-trash" style="margin-left:3px"></i> مسح كل الرسائل</button></div></div>
+
 <script>
 var AK='MUH206582026',SD=15000,MS=150,sCt=MS;
-
-// لحن أغنية حب عربية (مقام رست رومانسي)
 var MEL=[
     392, 440, 466.16, 440, 392, 349.23, 329.63, 349.23, 392, 523.25, 466.16, 440, 392, 349.23, 329.63, 293.66,
     261.63, 293.66, 329.63, 349.23, 392, 440, 392, 349.23, 329.63, 293.66, 261.63, 293.66, 329.63, 349.23, 392, 440,
@@ -155,11 +157,8 @@ var MEL=[
     293.66, 329.63, 349.23, 329.63, 293.66, 261.63, 293.66, 329.63, 349.23, 392, 349.23, 329.63, 293.66, 261.63, 293.66, 392
 ];
 var mI=0;
-
 var RC='',RN=null,GL=false;
 var gun=Gun({peers:['https://gun-relay.fly.dev/gun','https://peer.wallie.io/gun']});
-
-// زيادة السرعة الابتدائية
 var G={s:0,l:3,ML:3,c:0,sp:2,bs:4,run:false,rows:[],nid:0,best:0,raf:null,lt:0,startTime:0},RH=95;
 var MM={mode:null,nm:'',msgs:[],st:[],vw:new Set(),g:{}};
 
@@ -182,62 +181,110 @@ function loadRC(){RC=localStorage.getItem('pt_rc')||'';var e=document.getElement
 function saveRC(){var v=document.getElementById('rc-in').value.trim();if(!v){toast('أدخل كود الغرفة','var(--red)');return}RC=v;localStorage.setItem('pt_rc',RC);RN=gun.get('pt-room-'+RC);GL=false;toast('تم حفظ: '+RC,'var(--green)');loadGM();listenG();gn(523)}
 function loadG(){try{MM.g=JSON.parse(localStorage.getItem('pt_g'))||{}}catch(e){MM.g={}}}
 function saveG(){localStorage.setItem('pt_g',JSON.stringify(MM.g))}
-function addG(){var n=document.getElementById('gn-in').value.trim();var c=document.getElementById('gc-in').value.trim();if(!n||!c){toast('أدخل الاسم والكود','var(--red)');return}loadG();MM.g[c]={name:n,ts:Date.now()};saveG();renderG();document.getElementById('gn-in').value='';document.getElementById('gc-in').value='';if(RN)RN.get('guests').get(c).put({name:n,ts:Date.now()});toast('تم إضافة '+n,'var(--green)');gn(523)}
+
+// دالة إضافة الضيف - بتعمل كود عشوائي تلقائياً
+function addG(){
+    var n=document.getElementById('gn-in').value.trim();
+    if(!n){toast('أدخل اسم الضيف','var(--red)');return}
+    
+    // توليد كود عشوائي من 5 حروف وأرقام
+    var c = Math.random().toString(36).substring(2, 7).toUpperCase();
+    
+    loadG();
+    MM.g[c]={name:n, ts:Date.now()};
+    saveG();
+    renderG();
+    document.getElementById('gn-in').value='';
+    
+    if(RN) RN.get('guests').get(c).put({name:n, ts:Date.now()});
+    toast('تم إضافة '+n+' - كوده: '+c, 'var(--green)');
+    gn(523);
+}
+
 function remG(c){loadG();delete MM.g[c];saveG();renderG();if(RN)RN.get('guests').get(c).put(null)}
-function renderG(){loadG();var el=document.getElementById('glist');var ks=Object.keys(MM.g);if(!ks.length){el.innerHTML='<div style="font-size:10px;color:var(--muted)">لا يوجد ضيوف</div>';return}el.innerHTML=ks.map(function(k){return'<div class="gr"><span>'+esc(MM.g[k].name)+' <span style="color:var(--cyan);font-family:monospace;font-size:10px">('+esc(k)+')</span></span><button onclick="remG(\''+k+'\')"><i class="fas fa-times"></i></button></div>'}).join('')}
+
+// تعديل طريقة عرض الضيوف لتظهر الكود وتسمح بنسخه
+function renderG(){
+    loadG();
+    var el=document.getElementById('glist');
+    var ks=Object.keys(MM.g);
+    if(!ks.length){el.innerHTML='<div style="font-size:10px;color:var(--muted)">لا يوجد ضيوف</div>';return}
+    el.innerHTML=ks.map(function(k){
+        return'<div class="gr"><span>'+esc(MM.g[k].name)+' <span style="color:var(--cyan);font-family:monospace;font-size:10px;cursor:pointer" onclick="navigator.clipboard.writeText(\''+k+'\');toast(\'تم نسخ الكود\',\'var(--cyan)\')">['+esc(k)+']</span></span><button onclick="remG(\''+k+'\')"><i class="fas fa-times"></i></button></div>'
+    }).join('')
+}
 
 function openGC(){document.getElementById('gc-modal').classList.add('on');document.getElementById('gc-room').value='';document.getElementById('gc-code').value='';document.getElementById('gc-st').innerHTML='';document.getElementById('gc-go').disabled=false;setTimeout(function(){document.getElementById('gc-room').focus()},300)}
 function closeGC(){document.getElementById('gc-modal').classList.remove('on')}
 
+// دخول الضيف - بيتحقق إذا الكود موجود فعلاً بالغرفة
 function doGC(){
     var r=document.getElementById('gc-room').value.trim();
     var c=document.getElementById('gc-code').value.trim();
     var st=document.getElementById('gc-st');
     var btn=document.getElementById('gc-go');
-    if(!r||!c){st.innerHTML='<span style="color:var(--red)">أدخل كود الغرفة وكود الدخول</span>';return}
+    if(!r||!c){st.innerHTML='<span style="color:var(--red)">أدخل كود الغرفة وكود الدعوة</span>';return}
     
     btn.disabled=true;
-    st.innerHTML='<span style="color:var(--gold)"><i class="fas fa-spinner fa-spin"></i> جاري الاتصال...</span>';
-    
-    RC=r;
-    RN=gun.get('pt-room-'+RC);
-    GL=false; 
+    st.innerHTML='<span style="color:var(--gold)"><i class="fas fa-spinner fa-spin"></i> جاري التحقق...</span>';
 
+    // تحقق خاص لكود الأدمن
     if(c === AK){
+        RC=r;
+        RN=gun.get('pt-room-'+RC);
+        GL=false;
         MM.mode='admin';
         MM.nm='أدمن';
-    } else {
-        MM.mode='guest';
-        MM.nm=c;
-    }
-
-    var done=false;
-    RN.get('guests').get(c).once(function(d){
-        if(done)return;done=true;
-        var nm=(d&&d.name)?d.name:c;
-        if(c !== AK) MM.nm=nm; 
-        
         closeGC();
         document.getElementById('gameover').classList.remove('on');
         openMsg();
         sNS('on','متصل');
-        toast('مرحباً '+MM.nm,'var(--green)');
+        toast('مرحباً أدمن','var(--green)');
+        gn(523);
+        loadGM();
+        listenG();
+        return;
+    }
+
+    // التحقق من السيرفر إذا الضيف موجود بالفعل بقائمة الأدمن
+    var tempRN = gun.get('pt-room-'+r);
+    var done = false;
+
+    tempRN.get('guests').get(c).once(function(d){
+        if(done) return;
+        done = true;
+
+        // إذا الكود غلط أو مو موجود، ارفض الدخول
+        if(!d || !d.name){
+            st.innerHTML='<span style="color:var(--red)">كود الدعوة أو الغرفة غير صحيح!</span>';
+            btn.disabled=false;
+            return;
+        }
+
+        // إذا الكود صح، خله يدخل
+        RC = r;
+        RN = tempRN;
+        GL = false;
+        MM.mode = 'guest';
+        MM.nm = d.name;
+
+        closeGC();
+        document.getElementById('gameover').classList.remove('on');
+        openMsg();
+        sNS('on','متصل');
+        toast('مرحباً '+d.name,'var(--green)');
         gn(523);
         loadGM();
         listenG();
     });
-    
+
+    // إذا السيرفر ما استجاب، لا تدخله، بل اعرض خطأ
     setTimeout(function(){
-        if(done)return;done=true;
-        closeGC();
-        document.getElementById('gameover').classList.remove('on');
-        openMsg();
-        sNS('on','متصل');
-        toast('مرحباً '+MM.nm,'var(--green)');
-        gn(523);
-        loadGM();
-        listenG();
-    },4000);
+        if(done) return;
+        done = true;
+        st.innerHTML='<span style="color:var(--red)">خطأ في الاتصال، حاول مرة أخرى</span>';
+        btn.disabled=false;
+    }, 5000);
 }
 
 function initGun(){if(!RC){toast('حدد كود الغرفة أولاً','var(--red)');return}RN=gun.get('pt-room-'+RC);GL=false;sNS('on','جاهز');toast('تم الاتصال','var(--green)');loadG();Object.keys(MM.g).forEach(function(c){RN.get('guests').get(c).put({name:MM.g[c].name,ts:MM.g[c].ts||Date.now()})});loadGM();listenG()}
@@ -256,14 +303,7 @@ var bEl=document.getElementById('board');
 
 function startGame(){document.getElementById('start').classList.add('off');document.getElementById('game').style.display='flex';document.getElementById('gameover').classList.remove('on');G.s=0;G.l=G.ML;G.c=0;G.sp=G.bs;G.run=true;G.rows=[];G.startTime=performance.now();bEl.querySelectorAll('.row').forEach(function(r){r.remove()});updH();var bH=bEl.offsetHeight;var cnt=Math.ceil(bH/RH)+2;for(var i=0;i<cnt;i++)spR(-RH*(cnt-i-1));G.lt=performance.now();if(G.raf)cancelAnimationFrame(G.raf);G.raf=requestAnimationFrame(loop);mI=0}
 function spR(y){var bc=Math.floor(Math.random()*4);var row={id:G.nid++,y:y,blackCol:bc,tapped:false,missed:false,el:null};var el=document.createElement('div');el.className='row';el.style.height=RH+'px';el.style.top=row.y+'px';for(var c=0;c<4;c++){var cell=document.createElement('div');cell.className='cell'+(c===bc?' black':'');cell.dataset.col=c;cell.dataset.rid=row.id;el.appendChild(cell)}bEl.appendChild(el);row.el=el;G.rows.push(row)}
-
-function loop(t){if(!G.run)return;var dt=Math.min(t-G.lt,50);G.lt=t;var bH=bEl.offsetHeight;var mv=G.sp*dt*.12;for(var i=0;i<G.rows.length;i++){var r=G.rows[i];r.y+=mv;r.el.style.top=r.y+'px';if(!r.tapped&&!r.missed&&r.y>bH+8){r.missed=true;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.1)');var c=r.el.children[r.blackCol];if(c)c.classList.add('flash-miss');updH();if(G.l<=0){gO();return}}}G.rows=G.rows.filter(function(r){if(r.y>bH+RH+40){r.el.remove();return false}return true});var top=G.rows.reduce(function(m,r){return r.y<m.y?r:m},{y:Infinity});if(top.y>0)spR(top.y-RH);
-
-// معادلة التسريع مع الوقت والنقاط معاً
-var elapsed=(t-G.startTime)/1000; // الوقت بالثواني
-G.sp=G.bs+(G.s*0.02)+(elapsed*0.06); 
-
-document.getElementById('spf').style.width=Math.max(4,Math.min(100,((G.sp-G.bs)/7)*100))+'%';G.raf=requestAnimationFrame(loop)}
+function loop(t){if(!G.run)return;var dt=Math.min(t-G.lt,50);G.lt=t;var bH=bEl.offsetHeight;var mv=G.sp*dt*.12;for(var i=0;i<G.rows.length;i++){var r=G.rows[i];r.y+=mv;r.el.style.top=r.y+'px';if(!r.tapped&&!r.missed&&r.y>bH+8){r.missed=true;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.1)');var c=r.el.children[r.blackCol];if(c)c.classList.add('flash-miss');updH();if(G.l<=0){gO();return}}}G.rows=G.rows.filter(function(r){if(r.y>bH+RH+40){r.el.remove();return false}return true});var top=G.rows.reduce(function(m,r){return r.y<m.y?r:m},{y:Infinity});if(top.y>0)spR(top.y-RH);var elapsed=(t-G.startTime)/1000;G.sp=G.bs+(G.s*0.02)+(elapsed*0.06);document.getElementById('spf').style.width=Math.max(4,Math.min(100,((G.sp-G.bs)/7)*100))+'%';G.raf=requestAnimationFrame(loop)}
 
 bEl.addEventListener('pointerdown',function(e){if(!G.run)return;var cell=e.target.closest('.cell.black');if(!cell){var wc=e.target.closest('.cell:not(.black)');if(wc){var rEl=wc.closest('.row');if(!rEl)return;var rid=parseInt(wc.dataset.rid);var rw=G.rows.find(function(r){return r.id===rid});if(!rw||rw.tapped)return;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.12)');wc.classList.add('flash-miss');setTimeout(function(){wc.classList.remove('flash-miss')},180);updH();if(G.l<=0)gO()}return}var rid=parseInt(cell.dataset.rid);var rw=G.rows.find(function(r){return r.id===rid});if(!rw||rw.tapped)return;var cc=parseInt(cell.dataset.col);if(cc!==rw.blackCol)return;rw.tapped=true;cell.classList.add('tapped','flash-hit');setTimeout(function(){cell.classList.remove('flash-hit')},80);G.s++;G.c++;gn(MEL[mI%MEL.length]);mI++;var rc=cell.getBoundingClientRect();fPt(rc.left+rc.width/2,rc.top,'+1',G.c>3?'var(--gold)':'var(--cyan)');if(G.c>2&&G.c%5===0)sC(G.c);updH()});
 function updH(){document.getElementById('sc').textContent=G.s;var h='';for(var i=0;i<G.ML;i++)h+='<i class="fas fa-heart '+(i>=G.l?'lost':'')+'" style="color:'+(i>=G.l?'var(--muted)':'var(--red)')+'"></i>';document.getElementById('lv').innerHTML=h}
@@ -279,7 +319,6 @@ function rLB(){var lb=gLB();var el=document.getElementById('lb');if(!lb.length){
 function submitName(){
     var v=document.getElementById('gon').value.trim();
     if(!v) return;
-    // إرجاع خاصية كلمة سر الأدمن في خانة الاسم
     if(v===AK){
         MM.mode='admin';
         MM.nm='أدمن';
