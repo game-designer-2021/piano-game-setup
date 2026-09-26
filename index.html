@@ -59,7 +59,7 @@
         .lb::-webkit-scrollbar{width:2px}
         .lb::-webkit-scrollbar-thumb{background:var(--border)}
         .lb-row{display:flex;justify-content:space-between;padding:2px 0;font-size:10px;border-bottom:1px solid rgba(255,255,255,.02)}
-        .lb-row .1n{color:var(--muted)}.lb-row .s{color:var(--gold);font-weight:700}
+        .lb-row .ln{color:var(--muted)}.lb-row .s{color:var(--gold);font-weight:700}
         .mbg{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(6px);z-index:35}
         .mbg.on{opacity:1;pointer-events:all}
         .mbox{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;width:300px;max-width:90vw;text-align:center}
@@ -93,15 +93,15 @@
         .mc.mn{align-self:flex-start;background:linear-gradient(135deg,#0c2d48,#0e3553);border:1px solid rgba(0,229,255,.12)}
         .mc.th{align-self:flex-end;background:linear-gradient(135deg,#1a1025,#1e1230);border:1px solid rgba(179,136,255,.12)}
         .mc.sys{align-self:center;background:0;border:1px dashed rgba(255,255,255,.06);color:var(--muted);font-size:10px;text-align:center;max-width:90%}
-       #keyframes mA{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes mA{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
         .mc .sn{font-size:9px;font-weight:700;margin-bottom:2px;display:flex;gap:3px;align-items:center}
-        .mc .bd{font-size:13px;line-heightA:1.7;word-break:break-word;transition:filter .3s;min-height:18px}
+        .mc .bd{font-size:13px;line-height:1.7;word-break:break-word;transition:filter .3s;min-height:18px}
         .mc .mt{font-size:8px;color:var(--muted);margin-top:3px}
         .mc.burned .bd{filter:blur(8px);user-select:none}
         .mc .mdel{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:rgba(255,45,85,.15);border:0;color:var(--red);font-size:8px;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0}
         .mc:hover .mdel{display:flex}
         .mc .mdel:hover{background:var(--red);color:#fff}
-A        .sbar{height:2px;position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.04);overflow:hidden}
+        .sbar{height:2px;position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.04);overflow:hidden}
         .sfill{height:100%;background:var(--red);transition:width .1s linear}
         .mpill{font-size:8px;padding:1px 6px;border-radius:8px;font-weight:700}
         .mp-a{background:rgba(255,215,0,.08);color:var(--gold)}
@@ -120,7 +120,7 @@ A        .sbar{height:2px;position:absolute;bottom:0;left:0;right:0;background:r
         .ag input{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--txt);font-family:'Tajawal',sans-serif;font-size:11px;outline:none;text-align:center}
         .ag button{background:linear-gradient(135deg,#0e7490,#06b6d4);color:#fff;border:0;border-radius:6px;padding:5px 10px;font-size:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700}
         .clr{background:0;border:1px solid rgba(255,45,85,.2);color:var(--red);border-radius:6px;padding:5px 10px;font-size:9px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;width:100%;margin-top:8px}
-        .clr:hover{=border-color:var(--red)}
+        .clr:hover{border-color:var(--red)}
         .emp{text-align:center;padding:24px 14px;color:var(--muted);font-size:11px;flex-shrink:0}
         .sb{background:0;border:0;color:var(--muted);cursor:pointer;font-size:12px;padding:3px 5px}
         .sb:hover{color:var(--cyan)}
@@ -146,16 +146,28 @@ A        .sbar{height:2px;position:absolute;bottom:0;left:0;right:0;background:r
 <div id="msg-ov"><div class="mh"><div class="mh-l"><span>الغرفة</span><span class="mpill" id="mpill">---</span><span class="ns ns-off" id="ns"><i class="fas fa-circle"></i> ---</span></div><div><button class="sb" onclick="closeMsg()"><i class="fas fa-arrow-down"></i></button></div></div><div class="ml" id="ml"><div class="emp">فارغ</div></div><div class="mia"><textarea class="mi" id="minp" placeholder="اكتب..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,60)+'px'"></textarea><button class="ms" onclick="sendM()"><i class="fas fa-paper-plane"></i></button></div><div class="ap" id="apanel" style="display:none"><h4><i class="fas fa-cog" style="margin-left:4px"></i> إدارة الغرفة</h4><div class="rc-row"><label>كود الغرفة:</label><input class="rc-in" id="rc-in" type="text" maxlength="20" placeholder="مثلا: ROOM1"><button class="rc-sv" onclick="saveRC()">حفظ</button></div><h4 style="margin-top:10px"><i class="fas fa-users" style="margin-left:4px"></i> الضيوف</h4><div id="glist"></div><div class="ag"><input id="gn-in" type="text" placeholder="اسم الضيف" maxlength="15"><input id="gc-in" type="text" placeholder="كود الضيف" maxlength="15" style="direction:ltr"><button onclick="addG()">إضافة</button></div><button class="clr" onclick="confirmClr()"><i class="fas fa-trash" style="margin-left:3px"></i> مسح كل الرسائل</button></div></div>
 <script>
 var AK='MUH206582026',SD=15000,MS=150,sCt=MS;
-var MEL=[329.63,349.23,329.63,293.66,261.63,293.66,329.63,329.63,349.23,392,349.23,329.63,293.66,261.63,293.66,329.63,293.66,261.63,246.94,261.63,392,440,392,349.23,329.63,349.23,392,392,440,493.88,440,392,349.23,329.63,349.23,392,349.23,329.63,293.66,329.63,523.25,493.88,440,392,440,493.88,523.25,523.25,493.88,440,392,349.23,392,440,493.88,440,392,349.23,329.63,349.23,329.63,349.23,329.63,293.66,261.63,293.66,329.63,261.63],mI=0;
+
+// لحن أغنية حب عربية (مقام رست رومانسي)
+var MEL=[
+    392, 440, 466.16, 440, 392, 349.23, 329.63, 349.23, 392, 523.25, 466.16, 440, 392, 349.23, 329.63, 293.66,
+    261.63, 293.66, 329.63, 349.23, 392, 440, 392, 349.23, 329.63, 293.66, 261.63, 293.66, 329.63, 349.23, 392, 440,
+    523.25, 466.16, 440, 392, 440, 466.16, 523.25, 466.16, 440, 392, 349.23, 392, 440, 392, 349.23, 329.63,
+    293.66, 329.63, 349.23, 329.63, 293.66, 261.63, 293.66, 329.63, 349.23, 392, 349.23, 329.63, 293.66, 261.63, 293.66, 392
+];
+var mI=0;
+
 var RC='',RN=null,GL=false;
 var gun=Gun({peers:['https://gun-manhattan.herokuapp.com/gun','https://gun-us.herokuapp.com/gun']});
-var G={s:0,l:3,ML:3,c:0,sp:2,bs:2,run:false,rows:[],nid:0,best:0,raf:null,lt:0},RH=95;
+
+// زيادة السرعة الابتدائية والتسارع لتسهيل الخسارة
+var G={s:0,l:3,ML:3,c:0,sp:2,bs:4,run:false,rows:[],nid:0,best:0,raf:null,lt:0},RH=95;
 var MM={mode:null,nm:'',msgs:[],st:[],vw:new Set(),g:{}};
+
 function enc(t,k){var r='';for(var i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)))}
 function dec(e,k){try{var t=decodeURIComponent(escape(atob(e)));var r='';for(var i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return r}catch(x){return null}}
 var ac=null;
 function gn(f){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();var t=ac.currentTime;var o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(.1,t);g.gain.exponentialRampToValueAtTime(.001,t+1.2);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+1.2);var o2=ac.createOscillator(),g2=ac.createGain();o2.type='sine';o2.frequency.setValueAtTime(f*2,t);g2.gain.setValueAtTime(.025,t);g2.gain.exponentialRampToValueAtTime(.001,t+.5);o2.connect(g2);g2.connect(ac.destination);o2.start(t);o2.stop(t+.5)}catch(e){}}
-function errS(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='square';o.frequency.setValueAtTime(140,ac.currentTime);g.gain.setValueAtTime(.03,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.12);o.start(ac.currentTime);o.stop(ac.currentTime+.12)}catch(e){}}
+function errSnd(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='square';o.frequency.setValueAtTime(140,ac.currentTime);g.gain.setValueAtTime(.03,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.12);o.start(ac.currentTime);o.stop(ac.currentTime+.12)}catch(e){}}
 function toast(m,c){var t=document.createElement('div');t.className='toast';t.textContent=m;if(c)t.style.color=c;document.body.appendChild(t);setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove()},300)},2500)}
 function sNS(a,b){var e=document.getElementById('ns');e.className='ns ns-'+a;e.innerHTML='<i class="fas fa-circle"></i> '+b}
 function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
@@ -191,7 +203,12 @@ function snap(id){var el=document.getElementById('sf-'+id);if(!el)return;var rem
 var bEl=document.getElementById('board');
 function startGame(){document.getElementById('start').classList.add('off');document.getElementById('game').style.display='flex';document.getElementById('gameover').classList.remove('on');G.s=0;G.l=G.ML;G.c=0;G.sp=G.bs;G.run=true;G.rows=[];bEl.querySelectorAll('.row').forEach(function(r){r.remove()});updH();var bH=bEl.offsetHeight;var cnt=Math.ceil(bH/RH)+2;for(var i=0;i<cnt;i++)spR(-RH*(cnt-i-1));G.lt=performance.now();if(G.raf)cancelAnimationFrame(G.raf);G.raf=requestAnimationFrame(loop);mI=0}
 function spR(y){var bc=Math.floor(Math.random()*4);var row={id:G.nid++,y:y,blackCol:bc,tapped:false,missed:false,el:null};var el=document.createElement('div');el.className='row';el.style.height=RH+'px';el.style.top=row.y+'px';for(var c=0;c<4;c++){var cell=document.createElement('div');cell.className='cell'+(c===bc?' black':'');cell.dataset.col=c;cell.dataset.rid=row.id;el.appendChild(cell)}bEl.appendChild(el);row.el=el;G.rows.push(row)}
-function loop(t){if(!G.run)return;var dt=Math.min(t-G.lt,50);G.lt=t;var bH=bEl.offsetHeight;var mv=G.sp*dt*.12;for(var i=0;i<G.rows.length;i++){var r=G.rows[i];r.y+=mv;r.el.style.top=r.y+'px';if(!r.tapped&&!r.missed&&r.y>bH+8){r.missed=true;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.1)');var c=r.el.children[r.blackCol];if(c)c.classList.add('flash-miss');updH();if(G.l<=0){gO();return}}}G.rows=G.rows.filter(function(r){if(r.y>bH+RH+40){r.el.remove();return false}return true});var top=G.rows.reduce(function(m,r){return r.y<m.y?r:m},{y:Infinity});if(top.y>0)spR(top.y-RH);G.sp=G.bs+G.s*.028;document.getElementById('spf').style.width=Math.max(4,Math.min(100,((G.sp-G.bs)/7)*100))+'%';G.raf=requestAnimationFrame(loop)}
+function loop(t){if(!G.run)return;var dt=Math.min(t-G.lt,50);G.lt=t;var bH=bEl.offsetHeight;var mv=G.sp*dt*.12;for(var i=0;i<G.rows.length;i++){var r=G.rows[i];r.y+=mv;r.el.style.top=r.y+'px';if(!r.tapped&&!r.missed&&r.y>bH+8){r.missed=true;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.1)');var c=r.el.children[r.blackCol];if(c)c.classList.add('flash-miss');updH();if(G.l<=0){gO();return}}}G.rows=G.rows.filter(function(r){if(r.y>bH+RH+40){r.el.remove();return false}return true});var top=G.rows.reduce(function(m,r){return r.y<m.y?r:m},{y:Infinity});if(top.y>0)spR(top.y-RH);
+
+// تسريع اللعبة بشكل جنوني كلما زاد السكور
+G.sp=G.bs+G.s*.05; 
+document.getElementById('spf').style.width=Math.max(4,Math.min(100,((G.sp-G.bs)/7)*100))+'%';G.raf=requestAnimationFrame(loop)}
+
 bEl.addEventListener('pointerdown',function(e){if(!G.run)return;var cell=e.target.closest('.cell.black');if(!cell){var wc=e.target.closest('.cell:not(.black)');if(wc){var rEl=wc.closest('.row');if(!rEl)return;var rid=parseInt(wc.dataset.rid);var rw=G.rows.find(function(r){return r.id===rid});if(!rw||rw.tapped)return;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.12)');wc.classList.add('flash-miss');setTimeout(function(){wc.classList.remove('flash-miss')},180);updH();if(G.l<=0)gO()}return}var rid=parseInt(cell.dataset.rid);var rw=G.rows.find(function(r){return r.id===rid});if(!rw||rw.tapped)return;var cc=parseInt(cell.dataset.col);if(cc!==rw.blackCol)return;rw.tapped=true;cell.classList.add('tapped','flash-hit');setTimeout(function(){cell.classList.remove('flash-hit')},80);G.s++;G.c++;gn(MEL[mI%MEL.length]);mI++;var rc=cell.getBoundingClientRect();fPt(rc.left+rc.width/2,rc.top,'+1',G.c>3?'var(--gold)':'var(--cyan)');if(G.c>2&&G.c%5===0)sC(G.c);updH()});
 function updH(){document.getElementById('sc').textContent=G.s;var h='';for(var i=0;i<G.ML;i++)h+='<i class="fas fa-heart '+(i>=G.l?'lost':'')+'" style="color:'+(i>=G.l?'var(--muted)':'var(--red)')+'"></i>';document.getElementById('lv').innerHTML=h}
 function fPt(x,y,t,c){var e=document.createElement('div');e.className='float-score';e.textContent=t;e.style.left=x+'px';e.style.top=y+'px';e.style.color=c;document.body.appendChild(e);setTimeout(function(){e.remove()},650)}
@@ -201,7 +218,7 @@ function gO(){G.run=false;if(G.raf)cancelAnimationFrame(G.raf);if(G.s>G.best){G.
 function retry(){document.getElementById('gameover').classList.remove('on');startGame()}
 function gLB(){try{return JSON.parse(localStorage.getItem('pt_lb'))||[]}catch(e){return[]}}
 function sLB(l){localStorage.setItem('pt_lb',JSON.stringify(l))}
-function rLB(){var lb=gLB();var el=document.getElementById('lb');if(!lb.length){el.innerHTML='';return}el.innerHTML=lb.sort(function(a,b){return b.s-a.s}).slice(0,8).map(function(e,i){return'<div class="lb-row"><span class="1n">'+(i+1)+'. '+esc(e.n)+'</span><span class="s">'+e.s+'</span></div>'}).join('')}
+function rLB(){var lb=gLB();var el=document.getElementById('lb');if(!lb.length){el.innerHTML='';return}el.innerHTML=lb.sort(function(a,b){return b.s-a.s}).slice(0,8).map(function(e,i){return'<div class="lb-row"><span class="ln">'+(i+1)+'. '+esc(e.n)+'</span><span class="s">'+e.s+'</span></div>'}).join('')}
 function submitName(){var v=document.getElementById('gon').value.trim();if(!v)return;if(v===AK){MM.mode='admin';MM.nm='أدمن';document.getElementById('gameover').classList.remove('on');openMsg();return}var lb=gLB();lb.push({n:v,s:G.s});sLB(lb);rLB();document.getElementById('gon').value='';document.getElementById('gob').textContent='تم الحفظ! أفضل: '+G.best}
 (function(){var b=localStorage.getItem('pt_b');if(b)G.best=parseInt(b)||0})();
 </script>
