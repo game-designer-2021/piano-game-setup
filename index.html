@@ -140,8 +140,8 @@
 <body>
 <div id="start"><div class="start-title">بيانو تايلز</div><div class="start-sub">اضغط المربعات السوداء</div><button class="start-btn" onclick="startGame()">ابدأ</button></div>
 <div id="game" style="display:none"><div class="hud"><div class="hud-score" id="sc">0</div><div class="hud-lives" id="lv"></div><div class="hud-speed">السرعة <bar><fill id="spf" style="width:8%"></fill></bar></div></div><div class="board" id="board"><div class="col" data-c="0"></div><div class="col" data-c="1"></div><div class="col" data-c="2"></div><div class="col" data-c="3"></div><div class="tap-line"></div></div></div>
-<div id="gameover"><div class="go-label">انتهت اللعبة</div><div class="go-score" id="gos">0</div><div class="go-best" id="gob"></div><input class="go-input" id="gon" type="text" placeholder="اسمك للوحة المتصدرين" maxlength="30" autocomplete="off"><button class="go-btn" onclick="submitName()">حفظ النتيجة</button><button class="go-retry" onclick="retry()">محاولة أخرى</button><button class="go-guest-btn" onclick="openGC()"><i class="fas fa-link" style="margin-left:4px"></i> دخول كضيف</button><div class="lb" id="lb"></div><div class="go-ver">v7.1</div></div>
-<div class="mbg" id="gc-modal"><div class="mbox"><h3><i class="fas fa-user-friends" style="margin-left:4px"></i> دخول كضيف</h3><p>أدخل كود الغرفة وكود الضيف</p><input class="mI" id="gc-room" type="text" placeholder="كود الغرفة" maxlength="20"><input class="mI" id="gc-code" type="text" placeholder="كود الضيف" maxlength="20"><button class="mB" id="gc-go" onclick="doGC()">دخول</button><button class="mX" onclick="closeGC()">إلغاء</button><div class="mSt" id="gc-st"></div></div></div>
+<div id="gameover"><div class="go-label">انتهت اللعبة</div><div class="go-score" id="gos">0</div><div class="go-best" id="gob"></div><input class="go-input" id="gon" type="text" placeholder="اسمك للوحة المتصدرين" maxlength="30" autocomplete="off"><button class="go-btn" onclick="submitName()">حفظ النتيجة</button><button class="go-retry" onclick="retry()">محاولة أخرى</button><button class="go-guest-btn" onclick="openGC()"><i class="fas fa-link" style="margin-left:4px"></i> دخول للغرفة</button><div class="lb" id="lb"></div><div class="go-ver">v7.2</div></div>
+<div class="mbg" id="gc-modal"><div class="mbox"><h3><i class="fas fa-user-friends" style="margin-left:4px"></i> دخول للغرفة</h3><p>أدخل كود الغرفة، وكود الضيف (أو كود الأدمن)</p><input class="mI" id="gc-room" type="text" placeholder="كود الغرفة" maxlength="20"><input class="mI" id="gc-code" type="text" placeholder="كود الضيف / كود الأدمن" maxlength="20"><button class="mB" id="gc-go" onclick="doGC()">دخول</button><button class="mX" onclick="closeGC()">إلغاء</button><div class="mSt" id="gc-st"></div></div></div>
 <div class="cbg" id="cf-bg"><div class="cbox"><p id="cf-txt"></p><div class="cbs"><button class="cby" id="cf-y">نعم</button><button class="cbn" onclick="closeCf()">إلغاء</button></div></div></div>
 <div id="msg-ov"><div class="mh"><div class="mh-l"><span>الغرفة</span><span class="mpill" id="mpill">---</span><span class="ns ns-off" id="ns"><i class="fas fa-circle"></i> ---</span></div><div><button class="sb" onclick="closeMsg()"><i class="fas fa-arrow-down"></i></button></div></div><div class="ml" id="ml"><div class="emp">فارغ</div></div><div class="mia"><textarea class="mi" id="minp" placeholder="اكتب..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendM()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,60)+'px'"></textarea><button class="ms" onclick="sendM()"><i class="fas fa-paper-plane"></i></button></div><div class="ap" id="apanel" style="display:none"><h4><i class="fas fa-cog" style="margin-left:4px"></i> إدارة الغرفة</h4><div class="rc-row"><label>كود الغرفة:</label><input class="rc-in" id="rc-in" type="text" maxlength="20" placeholder="مثلا: ROOM1"><button class="rc-sv" onclick="saveRC()">حفظ</button></div><h4 style="margin-top:10px"><i class="fas fa-users" style="margin-left:4px"></i> الضيوف</h4><div id="glist"></div><div class="ag"><input id="gn-in" type="text" placeholder="اسم الضيف" maxlength="15"><input id="gc-in" type="text" placeholder="كود الضيف" maxlength="15" style="direction:ltr"><button onclick="addG()">إضافة</button></div><button class="clr" onclick="confirmClr()"><i class="fas fa-trash" style="margin-left:3px"></i> مسح كل الرسائل</button></div></div>
 <script>
@@ -157,7 +157,9 @@ var MEL=[
 var mI=0;
 
 var RC='',RN=null,GL=false;
-var gun=Gun({peers:['https://gun-manhattan.herokuapp.com/gun','https://gun-us.herokuapp.com/gun']});
+
+// تغيير السيرفرات لسيرفرات شغالة بدل القديمة المعطلة
+var gun=Gun({peers:['https://gun-relay.fly.dev/gun','https://peer.wallie.io/gun']});
 
 // زيادة السرعة الابتدائية والتسارع لتسهيل الخسارة
 var G={s:0,l:3,ML:3,c:0,sp:2,bs:4,run:false,rows:[],nid:0,best:0,raf:null,lt:0},RH=95;
@@ -185,9 +187,63 @@ function saveG(){localStorage.setItem('pt_g',JSON.stringify(MM.g))}
 function addG(){var n=document.getElementById('gn-in').value.trim();var c=document.getElementById('gc-in').value.trim();if(!n||!c){toast('أدخل الاسم والكود','var(--red)');return}loadG();MM.g[c]={name:n,ts:Date.now()};saveG();renderG();document.getElementById('gn-in').value='';document.getElementById('gc-in').value='';if(RN)RN.get('guests').get(c).put({name:n,ts:Date.now()});toast('تم إضافة '+n,'var(--green)');gn(523)}
 function remG(c){loadG();delete MM.g[c];saveG();renderG();if(RN)RN.get('guests').get(c).put(null)}
 function renderG(){loadG();var el=document.getElementById('glist');var ks=Object.keys(MM.g);if(!ks.length){el.innerHTML='<div style="font-size:10px;color:var(--muted)">لا يوجد ضيوف</div>';return}el.innerHTML=ks.map(function(k){return'<div class="gr"><span>'+esc(MM.g[k].name)+' <span style="color:var(--cyan);font-family:monospace;font-size:10px">('+esc(k)+')</span></span><button onclick="remG(\''+k+'\')"><i class="fas fa-times"></i></button></div>'}).join('')}
+
 function openGC(){document.getElementById('gc-modal').classList.add('on');document.getElementById('gc-room').value='';document.getElementById('gc-code').value='';document.getElementById('gc-st').innerHTML='';document.getElementById('gc-go').disabled=false;setTimeout(function(){document.getElementById('gc-room').focus()},300)}
 function closeGC(){document.getElementById('gc-modal').classList.remove('on')}
-function doGC(){var r=document.getElementById('gc-room').value.trim();var c=document.getElementById('gc-code').value.trim();var st=document.getElementById('gc-st');var btn=document.getElementById('gc-go');if(!r||!c){st.innerHTML='<span style="color:var(--red)">أدخل الكودين</span>';return}btn.disabled=true;st.innerHTML='<span style="color:var(--gold)"><i class="fas fa-spinner fa-spin"></i> جاري الاتصال...</span>';RC=r;RN=gun.get('pt-room-'+r);var done=false;RN.get('guests').get(c).once(function(d){if(done)return;done=true;var nm=(d&&d.name)?d.name:c;MM.mode='guest';MM.nm=nm;closeGC();document.getElementById('gameover').classList.remove('on');openMsg();sNS('on','متصل');toast('مرحباً '+nm,'var(--green)');gn(523);loadGM();listenG()});setTimeout(function(){if(done)return;done=true;MM.mode='guest';MM.nm=c;closeGC();document.getElementById('gameover').classList.remove('on');openMsg();sNS('on','متصل');toast('مرحباً','var(--green)');gn(523);loadGM();listenG()},6000)}
+
+function doGC(){
+    var r=document.getElementById('gc-room').value.trim();
+    var c=document.getElementById('gc-code').value.trim();
+    var st=document.getElementById('gc-st');
+    var btn=document.getElementById('gc-go');
+    if(!r||!c){st.innerHTML='<span style="color:var(--red)">أدخل كود الغرفة وكود الدخول</span>';return}
+    
+    btn.disabled=true;
+    st.innerHTML='<span style="color:var(--gold)"><i class="fas fa-spinner fa-spin"></i> جاري الاتصال...</span>';
+    
+    RC=r;
+    RN=gun.get('pt-room-'+RC);
+    GL=false; // تصفير المتغير عشان يشتغل الاستماع للغرفة الجديدة
+
+    // التحقق مما اذا كان الكود المُدخل هو كود الأدمن
+    if(c === AK){
+        MM.mode='admin';
+        MM.nm='أدمن';
+    } else {
+        MM.mode='guest';
+        MM.nm=c;
+    }
+
+    var done=false;
+    RN.get('guests').get(c).once(function(d){
+        if(done)return;done=true;
+        var nm=(d&&d.name)?d.name:c;
+        if(c !== AK) MM.nm=nm; // حفظ اسم الضيف إذا لم يكن أدمن
+        
+        closeGC();
+        document.getElementById('gameover').classList.remove('on');
+        openMsg();
+        sNS('on','متصل');
+        toast('مرحباً '+MM.nm,'var(--green)');
+        gn(523);
+        loadGM();
+        listenG();
+    });
+    
+    // في حال السيرفر ما استجاب، نخليه يدخل على الأقل محلي
+    setTimeout(function(){
+        if(done)return;done=true;
+        closeGC();
+        document.getElementById('gameover').classList.remove('on');
+        openMsg();
+        sNS('on','متصل');
+        toast('مرحباً '+MM.nm,'var(--green)');
+        gn(523);
+        loadGM();
+        listenG();
+    },4000);
+}
+
 function initGun(){if(!RC){toast('حدد كود الغرفة أولاً','var(--red)');return}RN=gun.get('pt-room-'+RC);GL=false;sNS('on','جاهز');toast('تم الاتصال','var(--green)');loadG();Object.keys(MM.g).forEach(function(c){RN.get('guests').get(c).put({name:MM.g[c].name,ts:MM.g[c].ts||Date.now()})});loadGM();listenG()}
 function loadGM(){if(!RN)return;RN.get('msgs').map().once(function(d){if(!d||!d.id||d.text===null||d.text===undefined)return;var tx=d.text;if(d.enc){var dd=dec(d.text,AK);if(dd)tx=dd}if(!MM.msgs.find(function(m){return m.id===d.id})){MM.msgs.push({id:d.id,who:d.who||'?',text:tx,ts:d.ts||0,admin:!!d.admin,system:!!d.system})}});setTimeout(function(){MM.msgs.sort(function(a,b){return a.ts-b.ts});svM();if(document.getElementById('msg-ov').classList.contains('on'))renderM()},1500)}
 function listenG(){if(!RN||GL)return;GL=true;RN.get('msgs').map().on(function(d){if(!d||d.id===undefined)return;if(d.text===null||d.text===undefined){var i=MM.msgs.findIndex(function(m){return m.id===d.id});if(i>-1){MM.msgs.splice(i,1);svM();if(document.getElementById('msg-ov').classList.contains('on'))renderM()}return}var tx=d.text;if(d.enc){var dd=dec(d.text,AK);if(dd)tx=dd}if(!MM.msgs.find(function(m){return m.id===d.id})){MM.msgs.push({id:d.id,who:d.who||'?',text:tx,ts:d.ts||0,admin:!!d.admin,system:!!d.system});MM.msgs.sort(function(a,b){return a.ts-b.ts});svM();if(document.getElementById('msg-ov').classList.contains('on'))renderM();gn(392)}})}
@@ -203,12 +259,7 @@ function snap(id){var el=document.getElementById('sf-'+id);if(!el)return;var rem
 var bEl=document.getElementById('board');
 function startGame(){document.getElementById('start').classList.add('off');document.getElementById('game').style.display='flex';document.getElementById('gameover').classList.remove('on');G.s=0;G.l=G.ML;G.c=0;G.sp=G.bs;G.run=true;G.rows=[];bEl.querySelectorAll('.row').forEach(function(r){r.remove()});updH();var bH=bEl.offsetHeight;var cnt=Math.ceil(bH/RH)+2;for(var i=0;i<cnt;i++)spR(-RH*(cnt-i-1));G.lt=performance.now();if(G.raf)cancelAnimationFrame(G.raf);G.raf=requestAnimationFrame(loop);mI=0}
 function spR(y){var bc=Math.floor(Math.random()*4);var row={id:G.nid++,y:y,blackCol:bc,tapped:false,missed:false,el:null};var el=document.createElement('div');el.className='row';el.style.height=RH+'px';el.style.top=row.y+'px';for(var c=0;c<4;c++){var cell=document.createElement('div');cell.className='cell'+(c===bc?' black':'');cell.dataset.col=c;cell.dataset.rid=row.id;el.appendChild(cell)}bEl.appendChild(el);row.el=el;G.rows.push(row)}
-function loop(t){if(!G.run)return;var dt=Math.min(t-G.lt,50);G.lt=t;var bH=bEl.offsetHeight;var mv=G.sp*dt*.12;for(var i=0;i<G.rows.length;i++){var r=G.rows[i];r.y+=mv;r.el.style.top=r.y+'px';if(!r.tapped&&!r.missed&&r.y>bH+8){r.missed=true;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.1)');var c=r.el.children[r.blackCol];if(c)c.classList.add('flash-miss');updH();if(G.l<=0){gO();return}}}G.rows=G.rows.filter(function(r){if(r.y>bH+RH+40){r.el.remove();return false}return true});var top=G.rows.reduce(function(m,r){return r.y<m.y?r:m},{y:Infinity});if(top.y>0)spR(top.y-RH);
-
-// تسريع اللعبة بشكل جنوني كلما زاد السكور
-G.sp=G.bs+G.s*.05; 
-document.getElementById('spf').style.width=Math.max(4,Math.min(100,((G.sp-G.bs)/7)*100))+'%';G.raf=requestAnimationFrame(loop)}
-
+function loop(t){if(!G.run)return;var dt=Math.min(t-G.lt,50);G.lt=t;var bH=bEl.offsetHeight;var mv=G.sp*dt*.12;for(var i=0;i<G.rows.length;i++){var r=G.rows[i];r.y+=mv;r.el.style.top=r.y+'px';if(!r.tapped&&!r.missed&&r.y>bH+8){r.missed=true;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.1)');var c=r.el.children[r.blackCol];if(c)c.classList.add('flash-miss');updH();if(G.l<=0){gO();return}}}G.rows=G.rows.filter(function(r){if(r.y>bH+RH+40){r.el.remove();return false}return true});var top=G.rows.reduce(function(m,r){return r.y<m.y?r:m},{y:Infinity});if(top.y>0)spR(top.y-RH);G.sp=G.bs+G.s*.05;document.getElementById('spf').style.width=Math.max(4,Math.min(100,((G.sp-G.bs)/7)*100))+'%';G.raf=requestAnimationFrame(loop)}
 bEl.addEventListener('pointerdown',function(e){if(!G.run)return;var cell=e.target.closest('.cell.black');if(!cell){var wc=e.target.closest('.cell:not(.black)');if(wc){var rEl=wc.closest('.row');if(!rEl)return;var rid=parseInt(wc.dataset.rid);var rw=G.rows.find(function(r){return r.id===rid});if(!rw||rw.tapped)return;G.l--;G.c=0;errSnd();sFl('rgba(255,45,85,.12)');wc.classList.add('flash-miss');setTimeout(function(){wc.classList.remove('flash-miss')},180);updH();if(G.l<=0)gO()}return}var rid=parseInt(cell.dataset.rid);var rw=G.rows.find(function(r){return r.id===rid});if(!rw||rw.tapped)return;var cc=parseInt(cell.dataset.col);if(cc!==rw.blackCol)return;rw.tapped=true;cell.classList.add('tapped','flash-hit');setTimeout(function(){cell.classList.remove('flash-hit')},80);G.s++;G.c++;gn(MEL[mI%MEL.length]);mI++;var rc=cell.getBoundingClientRect();fPt(rc.left+rc.width/2,rc.top,'+1',G.c>3?'var(--gold)':'var(--cyan)');if(G.c>2&&G.c%5===0)sC(G.c);updH()});
 function updH(){document.getElementById('sc').textContent=G.s;var h='';for(var i=0;i<G.ML;i++)h+='<i class="fas fa-heart '+(i>=G.l?'lost':'')+'" style="color:'+(i>=G.l?'var(--muted)':'var(--red)')+'"></i>';document.getElementById('lv').innerHTML=h}
 function fPt(x,y,t,c){var e=document.createElement('div');e.className='float-score';e.textContent=t;e.style.left=x+'px';e.style.top=y+'px';e.style.color=c;document.body.appendChild(e);setTimeout(function(){e.remove()},650)}
@@ -219,7 +270,10 @@ function retry(){document.getElementById('gameover').classList.remove('on');star
 function gLB(){try{return JSON.parse(localStorage.getItem('pt_lb'))||[]}catch(e){return[]}}
 function sLB(l){localStorage.setItem('pt_lb',JSON.stringify(l))}
 function rLB(){var lb=gLB();var el=document.getElementById('lb');if(!lb.length){el.innerHTML='';return}el.innerHTML=lb.sort(function(a,b){return b.s-a.s}).slice(0,8).map(function(e,i){return'<div class="lb-row"><span class="ln">'+(i+1)+'. '+esc(e.n)+'</span><span class="s">'+e.s+'</span></div>'}).join('')}
-function submitName(){var v=document.getElementById('gon').value.trim();if(!v)return;if(v===AK){MM.mode='admin';MM.nm='أدمن';document.getElementById('gameover').classList.remove('on');openMsg();return}var lb=gLB();lb.push({n:v,s:G.s});sLB(lb);rLB();document.getElementById('gon').value='';document.getElementById('gob').textContent='تم الحفظ! أفضل: '+G.best}
+
+// تم إزالة كود الأدمن من هنا، الآن فقط يحفظ النتيجة كلاعب عادي
+function submitName(){var v=document.getElementById('gon').value.trim();if(!v)return;var lb=gLB();lb.push({n:v,s:G.s});sLB(lb);rLB();document.getElementById('gon').value='';document.getElementById('gob').textContent='تم الحفظ! أفضل: '+G.best}
+
 (function(){var b=localStorage.getItem('pt_b');if(b)G.best=parseInt(b)||0})();
 </script>
 </body>
